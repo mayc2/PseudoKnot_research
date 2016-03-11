@@ -1,0 +1,14 @@
+ur_rna.GUITester
+ur_rna.GUITester.GuiTools
+ur_rna.GUITester.GuiTools.Matchers
+ur_rna.GUITester.ScriptParser
+ur_rna.RNAstructureUI
+ur_rna.RNAstructureUI.drawing.dialogs
+ur_rna.RNAstructureUI.drawing.menus
+ur_rna.RNAstructureUI.drawing.proxy
+ur_rna.RNAstructureUI.drawing.runners
+ur_rna.RNAstructureUI.menus
+ur_rna.RNAstructureUI.utilities
+ur_rna.RNAstructureUI.windows
+ur_rna.Utilities
+ur_rna.Utilities.annotation

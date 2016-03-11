@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>RNAstructure Installation and Overview: Building the Repository</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<link href="Stylesheet.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="bodydiv">
+			<table cellpadding="0" cellspacing="0" border="0" class="mainTable">
+				<tr class="headerRow">
+					<td class="headerBox"><img src="icon.jpg" alt="RNAstructure logo"></td>
+					<td class="headerLabel"><h2>RNAstructure Python Interfaces<br>
+					Quick Start Guide</h2></td>
+					<td class="headerBox2">
+						<ul id="navigator">
+							<li><h3 class="noMarginOrPad"><a href="index.html">Contents</a></h3></li>
+							<li><h3 class="noMarginOrPad"><a href="AlphabeticalIndex.html">Index</a></h3></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td class="mainContent" colspan="3">
+					  <div>
+							<h2 class="leftHeader">&nbsp;</h2>
+
+							<p>To compile the python library, run this shell command in the RNAstructure/RNA_class directory<br>
+						  &gt; make python_interface</p>
+							<p>The library will be built in RNAstructure/RNAstructure_python_interface. Make sure this directory is on your PATH or PYTHONPATH<br>
+							  Once compiled, the RNAstructure module is loaded as usual:<br>
+						  &gt; import RNAstructure</p>
+							<p>To access the in-line documentation:<br>
+						  &gt;help(RNAstructure)</p>
+							<p>The following<a href="http://rna.urmc.roches"> RNAstructure classes</a> have python bindings:<br>
+							  RNA<br>
+							  ProbScan<br>
+							  Dynalign_object<br>
+							  Multilign_object<br>
+					    Oligowalk_object</p>
+							<p>Each class and method has in-line documentation<br>
+							  &gt; help(RNAstructure.RNA)<br>
+							  &gt; help(RNAstructure.RNA.FoldSingleStrand())<br>
+						  &gt; help(RNAstructure.ProbScan.probability_of_multibranch_loop)</p>
+							<p>Each class can be instantiated with its fromString and fromFile methods<br>
+							  &gt; p = RNAstructure.RNA.fromString(&quot;GGGGAAACCCC&quot;)<br>
+							  &gt; q = RNAstructure.RNA.fromFile(&quot;../tests/time/ivslsu.seq&quot;)<br>
+						  &gt; m = RNAstructure.Dynalign_object.fromString(&quot;CGCGCGUUCGGCGCGC&quot;,&quot;GCGCGCUUCAGCGCGC&quot;)</p>
+							<p>The classes have structure calculation methods identically to the C++ classes<br>
+							  &gt; p.FoldSingleStrand()<br>
+							  &gt; p.PartitionFunction()<br>
+						  &gt; m.Dynalign()</p>
+							<p>The multiple-sequence classes such as dynalign have multiple RNA objects that can be accessed<br>
+						  &gt; m.GetRNA2() # returns an RNA</p>
+							<p>They have IO methods to write structures to disc<br>
+							  &gt; p.WriteCt(&quot;foo.ct&quot;)<br>
+						  &gt; m.GetRNA2.WriteCt(&quot;bar.ct&quot;)</p>
+							<p>RNA and ProbScan objects are iterable. To iterate over the sequence:<br>
+                            &gt; for nuc in p: print nuc<br></p>
+							<p>Or over the nucleotide indices:<br>
+                            &gt; for i in p.iterIndices(): print GetNucleotide(i) #identical behavior<br></p>
+
+							<p>It's also possible to get the pairing information to manipulate it within python<br>
+						  &gt; pairs = [(i,p.GetPair(i)) for i in p.iterIndices()]</p>
+							<p>Or pair probabilities<br>
+						  &gt; p.GetPairProbability(1,10) #0.437</p>
+							<p>If you have any trouble, feel free to contact Michael Sloma at michael_sloma@urmc.rochester.edu.<br>
+						  </p>
+						<h3 class="leftHeader">&nbsp;</h3>
+						</div>
+
+						<div>
+						  <h2 class="leftHeader">&nbsp;</h2>
+						</div>
+<div></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="footer" colspan="3">
+						<p>Visit <a href="http://rna.urmc.rochester.edu/RNAstructure.html">The Mathews Lab RNAstructure Page</a> for updates and latest information.</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

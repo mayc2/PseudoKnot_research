@@ -1,0 +1,300 @@
+java_interface\src\ur_rna\RNAstructureUI\utilities\RNAstructureMenu.java:48: warning: no @return
+	protected JCheckBoxMenuItem addCheckBoxMenuItem(
+	                            ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RNAstructureMenu.java:66: warning: no @return
+	protected JMenuItem addMenuItem( String text, String rollover ) {
+	                    ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RNAstructureMenu.java:84: warning: no @return
+	protected JMenuItem addMenuItem(
+	                    ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RNAstructureMenu.java:101: warning: no @return
+	protected JMenuItem addMenuItem(
+	                    ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RNAstructureMenu.java:128: warning: no @return
+	public JMenuItem insertMenuItem(
+	                 ^
+java_interface\src\ur_rna\RNAstructureUI\menus\ConstraintsMenu.java:497: warning: no @return
+		public abstract String setConstraint( String data );
+		                       ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\ValueSelectionDialog.java:261: warning: no @return
+	public JPanel createAdditionalControls() { return null; }
+	              ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\ValueSelectionDialog.java:271: warning: no @return
+	public abstract ActionListener createSelectionAction();
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\FieldPanel.java:110: warning: no @param for width
+	public void setPanelWidth( int width ) { specifiedPanelWidth = width; }
+	            ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\FileField.java:52: warning: no @param for text
+	public static FileField createDisabled( String text ) {
+	                        ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\FileField.java:61: warning: no @param for text
+	public static FileField createEnabled( String text ) {
+	                        ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\NumberField.java:126: warning: no @return
+	protected boolean doAdditionalCheck( char key ) { return false; }
+	                  ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:112: warning: no @return
+	public static RadioButtonPanel makeHorizontal( String[] names ) {
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:121: warning: no @return
+	public static RadioButtonPanel makeVertical( String[] names ) {
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:131: warning: no @return
+	public static RadioButtonPanel makeHorizontal(
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:142: warning: no @return
+	public static RadioButtonPanel makeVertical(
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:155: warning: no @return
+	public static RadioButtonPanel makeHorizontal(
+	                               ^
+java_interface\src\ur_rna\RNAstructureUI\utilities\RadioButtonPanel.java:168: warning: no @return
+	public static RadioButtonPanel makeVertical(
+	                               ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:51: warning: no @param for key
+    public synchronized Serializable getData(String key) {
+                                     ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:51: warning: no @return
+    public synchronized Serializable getData(String key) {
+                                     ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:57: warning: no @param for key
+    public synchronized Serializable getData(String key, Serializable defaultValue) {
+                                     ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:57: warning: no @param for defaultValue
+    public synchronized Serializable getData(String key, Serializable defaultValue) {
+                                     ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:57: warning: no @return
+    public synchronized Serializable getData(String key, Serializable defaultValue) {
+                                     ^
+java_interface\src\ur_rna\Utilities\ExtensibleException.java:75: warning: no @return
+    public String getOriginalMessage() {
+                  ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:16: warning: no description for @param
+     * @param message
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:23: warning: no description for @param
+     * @param cause
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:30: warning: no description for @param
+     * @param message
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:31: warning: no description for @param
+     * @param cause
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:38: warning: no description for @param
+     * @param message
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:39: warning: no description for @param
+     * @param cause
+       ^
+java_interface\src\ur_rna\GUITester\ScriptRuntimeException.java:41: warning: no @param for currentNode
+    public ScriptRuntimeException(String message, Throwable cause, ScriptNode currentNode) {
+           ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:22: warning: no @param for n
+  void jjtSetParent(Node n);
+       ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:27: warning: no @param for n
+  void jjtAddChild(Node n, int i);
+       ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:27: warning: no @param for i
+  void jjtAddChild(Node n, int i);
+       ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:31: warning: no @param for i
+  Node jjtGetChild(int i);
+       ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:31: warning: no @return
+  Node jjtGetChild(int i);
+       ^
+java_interface\src\ur_rna\GUITester\ScriptParser\Node.java:34: warning: no @return
+  int jjtGetNumChildren();
+      ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:965: warning: no @param for stream
+  public GuiTestScriptParser(java.io.InputStream stream) {
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:969: warning: no @param for stream
+  public GuiTestScriptParser(java.io.InputStream stream, String encoding) {
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:969: warning: no @param for encoding
+  public GuiTestScriptParser(java.io.InputStream stream, String encoding) {
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:996: warning: no @param for stream
+  public GuiTestScriptParser(java.io.Reader stream) {
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1019: warning: no @param for tm
+  public GuiTestScriptParser(GuiTestScriptParserTokenManager tm) {
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:8: warning: no @param for args
+  public static void main(String args[]) throws ParseException {
+                     ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:8: warning: no @throws for ur_rna.GUITester.ScriptParser.ParseException
+  public static void main(String args[]) throws ParseException {
+                     ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:47: warning: no @return
+  public String lastText() {    return lastText(0);  }
+                ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:51: warning: no @return
+  public int lastKind() {       return lastKind(0);  }
+             ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:55: warning: no @return
+  public Token lastToken() {    return lastToken(0);  }
+               ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:59: warning: no @param for pos
+  public String lastText(int pos) {     return getToken(-pos).image;  }
+                ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:59: warning: no @return
+  public String lastText(int pos) {     return getToken(-pos).image;  }
+                ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:63: warning: no @param for pos
+  public int lastKind(int pos) {        return getToken(-pos).kind;  }
+             ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:63: warning: no @return
+  public int lastKind(int pos) {        return getToken(-pos).kind;  }
+             ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:67: warning: no @param for pos
+  public Token lastToken(int pos) {     return getToken(-pos);  }
+               ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:67: warning: no @return
+  public Token lastToken(int pos) {     return getToken(-pos);  }
+               ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:111: warning: no @return
+  final public SimpleNode ParseScriptProgram() throws ParseException {
+                          ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:111: warning: no @throws for ur_rna.GUITester.ScriptParser.ParseException
+  final public SimpleNode ParseScriptProgram() throws ParseException {
+                          ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:617: warning: no @throws for ur_rna.GUITester.ScriptParser.ParseException
+  final public void SignedNumber() throws ParseException {
+                    ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:980: warning: no @param for stream
+  public void ReInit(java.io.InputStream stream) {
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:984: warning: no @param for stream
+  public void ReInit(java.io.InputStream stream, String encoding) {
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:984: warning: no @param for encoding
+  public void ReInit(java.io.InputStream stream, String encoding) {
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1007: warning: no @param for stream
+  public void ReInit(java.io.Reader stream) {
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1029: warning: no @param for tm
+  public void ReInit(GuiTestScriptParserTokenManager tm) {
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1090: warning: no @return
+  final public Token getNextToken() {
+                     ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1100: warning: no @param for index
+  final public Token getToken(int index) {
+                     ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1100: warning: no @return
+  final public Token getToken(int index) {
+                     ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParser.java:1148: warning: no @return
+  public ParseException generateParseException() {
+                        ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:958: warning: no @param for stream
+    public GuiTestScriptParserTokenManager(JavaCharStream stream){
+           ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:967: warning: no @param for stream
+  public GuiTestScriptParserTokenManager (JavaCharStream stream, int lexState){
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:967: warning: no @param for lexState
+  public GuiTestScriptParserTokenManager (JavaCharStream stream, int lexState){
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:11: warning: no @param for ds
+  public  void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
+               ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:851: warning: no @return
+public Token getNextToken() 
+             ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:973: warning: no @param for stream
+  public void ReInit(JavaCharStream stream)
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:990: warning: no @param for stream
+  public void ReInit(JavaCharStream stream, int lexState)
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:990: warning: no @param for lexState
+  public void ReInit(JavaCharStream stream, int lexState)
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\GuiTestScriptParserTokenManager.java:997: warning: no @param for lexState
+  public void SwitchTo(int lexState)
+              ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:398: warning: no @param for dstream
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:398: warning: no @param for startline
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:398: warning: no @param for startcolumn
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:398: warning: no @param for buffersize
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:413: warning: no @param for dstream
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:413: warning: no @param for startline
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:413: warning: no @param for startcolumn
+  public JavaCharStream(java.io.Reader dstream,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:420: warning: no @param for dstream
+  public JavaCharStream(java.io.Reader dstream)
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @param for dstream
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @param for encoding
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @param for startline
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @param for startcolumn
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @param for buffersize
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:458: warning: no @throws for java.io.UnsupportedEncodingException
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:465: warning: no @param for dstream
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:465: warning: no @param for startline
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:465: warning: no @param for startcolumn
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:465: warning: no @param for buffersize
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:472: warning: no @param for dstream
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:472: warning: no @param for encoding
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:472: warning: no @param for startline
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:472: warning: no @param for startcolumn
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:472: warning: no @throws for java.io.UnsupportedEncodingException
+  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:479: warning: no @param for dstream
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:479: warning: no @param for startline
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^
+java_interface\src\ur_rna\GUITester\ScriptParser\JavaCharStream.java:479: warning: no @param for startcolumn
+  public JavaCharStream(java.io.InputStream dstream, int startline,
+         ^

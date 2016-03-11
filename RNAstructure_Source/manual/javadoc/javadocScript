@@ -1,0 +1,94 @@
+## TODO: Move this into the Java GUI Makefile (in RNAstructure/java_interface)
+## That way it can stay in sync better with changes to the GUI
+
+# Move to the RNAstructure main directory.
+cd ../../;
+
+SRC_ROOT=java_interface/src
+SRC_MAIN=$SRC_ROOT/ur_rna/RNAstructureUI
+SRC_DRAWING=$SRC_MAIN/drawing
+SRC_UI_UTILS=$SRC_MAIN/utilities
+
+SRC_TESTER=$SRC_ROOT/ur_rna/GUITester
+SRC_UTIL=$SRC_ROOT/ur_rna/Utilities
+
+PKG_ROOT=ur_rna
+PKG_MAIN=${PKG_ROOT}.RNAstructureUI
+PKG_TESTER=${PKG_ROOT}.GUITester
+PKG_UTIL=${PKG_ROOT}.Utilities
+
+LIB=java_interface/lib
+JAVA_CLASSPATH=${SRC_ROOT}:$LIB/abbot.jar:$LIB/gnu-regexp-*.jar:$LIB/jdom-*.jar
+
+OS=$(uname -s 2>/dev/null)
+# Perform some replacements to normalize the output of uname on various systems.
+case "${OS^^}" in 
+	CYGWIN*|MSYS*) 	OS=Windows 	;;
+	DARWIN) 		OS=Mac 		;;
+	GNU*)			OS=Linux 	;;
+	*)				OS=UNKNOWN	;;
+esac
+[[ $OS == Windows ]] && JAVA_CLASSPATH="${JAVA_CLASSPATH//:/\;}" #replace : with ; on Windows.
+
+echo "JAVA_CLASSPATH: ${JAVA_CLASSPATH}"
+
+
+# Copy the HTML files that expand Javadoc comments to their proper places and names so the Javadoc tool will use them.
+cp manual/javadoc/comments/Overview.html overview.html
+cp manual/javadoc/comments/DrawingSource.html ${SRC_DRAWING}/package.html
+cp manual/javadoc/comments/DrawingSourceDialogs.html ${SRC_DRAWING}/dialogs/package.html
+cp manual/javadoc/comments/DrawingSourceMenus.html ${SRC_DRAWING}/menus/package.html
+cp manual/javadoc/comments/DrawingSourceProxy.html ${SRC_DRAWING}/proxy/package.html
+cp manual/javadoc/comments/DrawingSourceRunners.html ${SRC_DRAWING}/runners/package.html
+cp manual/javadoc/comments/InterfaceSource.html ${SRC_MAIN}/package.html
+cp manual/javadoc/comments/InterfaceSourceMenus.html ${SRC_MAIN}/menus/package.html
+cp manual/javadoc/comments/InterfaceSourceStartup.html ${SRC_MAIN}/package.html
+cp manual/javadoc/comments/InterfaceSourceWindows.html ${SRC_MAIN}/windows/package.html
+cp manual/javadoc/comments/Utilities.html ${SRC_UI_UTILS}/package.html
+
+# flags for javadoc
+javadocFlags=( 
+	-private -encoding UTF-8 -nodeprecated 
+	-overview overview.html 
+	-sourcepath ${SRC_ROOT} 
+	-d manual/javadoc 
+	-classpath "${JAVA_CLASSPATH}"
+	#-link http://download.oracle.com/javase/6/docs/api/
+)
+
+#list all RNAstructure java packages to document
+javadocPackages=(  
+	${PKG_MAIN} 
+	${PKG_MAIN}.menus 
+	${PKG_MAIN}.windows 
+	#${PKG_MAIN}.drawing
+	${PKG_MAIN}.drawing.dialogs 
+	${PKG_MAIN}.drawing.menus 
+	${PKG_MAIN}.drawing.proxy 
+	${PKG_MAIN}.drawing.runners 
+	${PKG_MAIN}.utilities 
+	${PKG_TESTER} 
+	${PKG_TESTER}.ScriptParser 
+	${PKG_TESTER}.GuiTools 
+	${PKG_TESTER}.GuiTools.Matchers 
+	${PKG_UTIL} 
+	${PKG_UTIL}.annotation
+)
+
+echo javadoc "${javadocFlags[@]}" "${javadocPackages[@]}"
+
+# Run the javadoc command
+javadoc "${javadocFlags[@]}" "${javadocPackages[@]}"
+
+# Delete any copied files.
+rm -f overview.html
+rm -f ${SRC_DRAWING}/package.html
+rm -f ${SRC_DRAWING}/dialogs/package.html
+rm -f ${SRC_DRAWING}/menus/package.html
+rm -f ${SRC_DRAWING}/proxy/package.html
+rm -f ${SRC_DRAWING}/runners/package.html
+rm -f ${SRC_MAIN}/package.html
+rm -f ${SRC_MAIN}/menus/package.html
+rm -f ${SRC_MAIN}/startup/package.html
+rm -f ${SRC_MAIN}/windows/package.html
+rm -f ${SRC_UI_UTILS}/package.html

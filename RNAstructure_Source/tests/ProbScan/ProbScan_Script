@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# If the ProbScan executable doesn't exist yet, make it.
+# Also, make the partition function save file necessary for testing.
+echo '    Preparation of ProbScan tests started...'
+echo '        Preparation in progress...'
+if [[ ! -f ../exe/partition ]]
+then
+cd ..; make partition >& /dev/null; cd tests;
+fi
+
+if [[ ! -f ../exe/ProbScan ]]
+then
+cd ..; make ProbScan >& /dev/null; cd tests;
+fi
+
+if [[ ! -f $SINGLEPFS ]]
+then
+../exe/partition $SINGLESEQ $SINGLEPFS 1>/dev/null 2>ProbScan_partitionFunction_prep_errors.txt
+if [[ -s ProbScan_partitionFunction_prep_errors.txt ]]
+then
+cp ProbScan_partitionFunction_prep_errors.txt RNAstructure_error_tests/
+fi
+fi
+echo '    Preparation of ProbScan tests finished.'
+
+# Test ProbScan_helix
+echo '    ProbScan_helix testing started...'
+../exe/ProbScan $SINGLEPFS -e 1 1> ProbScan_helices_test.txt 2>ProbScan_helices_errors.txt
+$DIFF_CMD ProbScan_helices_test.txt ProbScan/ProbScan_helices_OK.txt >& ProbScan_helices_diff_output.txt
+checkErrors ProbScan_helices ProbScan_helices_errors.txt ProbScan_helices_diff_output.txt
+echo '    ProbScan helix testing finished.'
+
+# Test ProbScan_bulge
+echo '    ProbScan_hairpin testing started...'
+../exe/ProbScan $SINGLEPFS -a 1> ProbScan_hairpins_test.txt 2>ProbScan_hairpins_errors.txt
+$DIFF_CMD ProbScan_hairpins_test.txt ProbScan/ProbScan_hairpins_OK.txt >& ProbScan_hairpins_diff_output.txt
+checkErrors ProbScan_hairpins_test.txt ProbScan_hairpins_errors.txt ProbScan_hairpins_diff_output.txt
+echo '    ProbScan_hairpin testing finished.'
+
+# Test ProbScan_bulge
+echo '    ProbScan_bulge testing started...'
+../exe/ProbScan $SINGLEPFS -b 1> ProbScan_bulges_test.txt 2>ProbScan_bulges_errors.txt
+$DIFF_CMD ProbScan_bulges_test.txt ProbScan/ProbScan_bulges_OK.txt >& ProbScan_bulges_diff_output.txt
+checkErrors ProbScan_bulges_test.txt ProbScan_bulges_errors.txt ProbScan_bulges_diff_output.txt
+echo '    ProbScan_bulge testing finished.'
+
+# Test ProbScan_iloop
+echo '    ProbScan_iloop testing started...'
+../exe/ProbScan $SINGLEPFS -i 1> ProbScan_iloops_test.txt 2>ProbScan_iloops_errors.txt
+$DIFF_CMD ProbScan_iloops_test.txt ProbScan/ProbScan_iloops_OK.txt >& ProbScan_iloops_diff_output.txt
+checkErrors ProbScan_iloops_test.txt ProbScan_iloops_errors.txt ProbScan_iloops_diff_output.txt
+echo '    ProbScan_iloop testing finished.'
+
+# Test ProbScan_multibranch
+echo '    ProbScan_multibranch testing started...'
+../exe/ProbScan $SINGLEPFS -m ProbScan/ProbScan_multibranch_test_loops.txt 1> ProbScan_multibranch_test.txt 2>ProbScan_multibranch_errors.txt
+$DIFF_CMD ProbScan_multibranch_test.txt ProbScan/ProbScan_multibranch_OK.txt >& ProbScan_multibranch_diff_output.txt
+checkErrors ProbScan_multibranch_test.txt ProbScan_multibranch_errors.txt ProbScan_multibranch_diff_output.txt
+echo '    ProbScan_multibranch testing finished.'
+
+# Test ProbScan_helix
+echo '    ProbScan_pairs testing started...'
+../exe/ProbScan $SINGLEPFS -p 1-72,2-71,3-70 1> ProbScan_pairs_test.txt 2>ProbScan_pairs_errors.txt
+$DIFF_CMD ProbScan_pairs_test.txt ProbScan/ProbScan_pairs_OK.txt >& ProbScan_pairs_diff_output.txt
+checkErrors ProbScan_pairs ProbScan_pairs_errors.txt ProbScan_pairs_diff_output.txt
+echo '    ProbScan_pairs testing finished.'
+
+# Clean up any extra files made over the course of the ProbScan tests.
+echo '    Cleanup of ProbScan tests started...'
+echo '        Cleanup in progress...'
+rm -f ProbScan_partitionFunction_prep_errors.txt
+rm -f ProbScan_helices*
+rm -f ProbScan_hairpin*
+rm -f ProbScan_iloops*
+rm -f ProbScan_bulges*
+rm -f ProbScan_multibranch*
+rm -f ProbScan_pairs*
+rm -f $SINGLEPFS
+echo '    Cleanup of ProbScan tests completed.'

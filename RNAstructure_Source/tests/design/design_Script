@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# If the design executable doesn't exist yet, make it.
+echo '    Preparation of design tests started...'
+echo '        Preparation in progress...'
+if [[ ! -f ../exe/design ]]
+then
+cd ..; make design >& /dev/null; cd tests; 
+fi
+
+echo '    Preparation of design tests finished.'
+
+DESIGN_INPUT_1=design/hairpin_structure.ct
+DESIGN_INPUT_2=design/bmorivector_structure.ct
+
+
+# For tests to be reproducible, we need to specify a random seed. 
+# So even the test "without options" has a seed option. (-s 1) 
+# (The number 1 was arbitrarily chosen, and has no special significance.)
+
+# Test design_without_options.
+TEST=design_without_options
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_1} -o ${TEST}_test_output.ct -s 1  1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_dna_option.
+TEST=design_dna_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_1} -o ${TEST}_test_output.ct -s 1    -d    1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_random_seed_option.
+# Test another arbitrary seed option (123456789). In general, different random seeds lead to different results.
+TEST=design_seed_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_1} -o ${TEST}_test_output.ct        -s 123456789    1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_max_defect_option.
+TEST=design_max_defect_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_1} -o ${TEST}_test_output.ct -s 1    -e 0.001      1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_preselect_option.
+TEST=design_preselect_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_1} -o ${TEST}_test_output.ct -s 1    -p      1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_maxmutate_option. 
+#	Set the maximum number of times a nucleotide will be mutated during                     
+#    defect-weighted reoptimization. The default is 4.
+TEST=design_maxmutate_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_2} -o ${TEST}_test_output.ct -s 1    -e 0.1 -p -mm 2     1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+
+# Test design_maxleaf_option.
+# The maximum number of times a leaf can be re-optimized at random. The default is 3.
+TEST=design_maxleaf_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_2} -o ${TEST}_test_output.ct -s 1    -e 0.1 -p -ml 1     1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_maxredesign_option.
+# The maximum number of redesigns per parent node.  The default is 10.
+TEST=design_maxredesign_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_2} -o ${TEST}_test_output.ct -s 1    -e 0.1 -p -mr 2     1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_maxdepth_option.
+# Max-depth: The maximum extent to which the structure will be sub-divided in the binary decomposition. The default is 5.
+TEST=design_maxdepth_option
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_2} -o ${TEST}_test_output.ct -s 1     -e 0.1 -p -md 2     1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+# Test design_medium_structure.
+TEST=design_medium_structure
+echo "    ${TEST} testing started..."
+../exe/design ${DESIGN_INPUT_2} -o ${TEST}_test_output.ct -s 1  -e 0.1 -p  1>${TEST}_STDOUT.txt 2>${TEST}_errors.txt
+$DIFF_CMD ${TEST}_test_output.ct design/${TEST}_OK.ct >& ${TEST}_diff_output.txt
+checkErrors ${TEST} ${TEST}_errors.txt ${TEST}_diff_output.txt
+echo "    ${TEST} testing finished."
+
+shopt -s nullglob #make sure globs result in NULL (empty) values if they don't match
+TEST_OUTPUT_FILES=( 
+	design_*_options_*
+	design_*_option_*
+	design_*_structure_*
+)
+
+if [[ $DEBUG_TEST_OUTPUT -ne 0 ]]; then
+	rm -rf design_OUT/
+	mkdir -p design_OUT
+	mv "${TEST_OUTPUT_FILES[@]}" design_OUT/
+fi
+
+# Clean up any extra files made over the course of the design tests.
+echo '    Cleanup of design tests started...'
+echo '        Cleanup in progress...'
+rm -f "${TEST_OUTPUT_FILES[@]}"
+echo '    Cleanup of design tests completed.'

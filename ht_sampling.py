@@ -3,51 +3,6 @@ import sys
 import random
 import os
 
-"""
-Program to read and parse a CT formatted file into a useable data structure.
-CT files:
-number of base pairs, title of structure
-each base has its own line with info:
-  -base number: index n
-  -Base (A, C, G, T, U, X)
-  -Index n-1
-  -Index n+1
-  -Number of the base to which n is paired. No pairing is indicated by 0.
-  -Natural numbering. RNAstructure ignores the actual value given in natural numbering, so it is easiest to repeat n here.
-
-"""
-
-class Base_CT(object):
-	"""docstring for Base"""
-	def __init__(self, arg):
-		super(Base_CT, self).__init__()
-		self.base_number = int(arg[0])-1
-		self.nucleotide = arg[1]
-		self.sub_n = int(arg[2])
-		self.post_n = int(arg[3])
-		self.pair_index = max(0,int(arg[4])-1)
-		self.nat_numbering = int(arg[5])
-	def __str__(self):
-		super(Base_CT, self).__init__()
-		return (self.base_number + ": " + self.nucleotide +" pairs with " + self.pair_index + ", previous: " + self.sub_n + ", next: " + self.post_n +".")
-
-class Structure_CT(object):
-
-	"""docstring for Structure"""
-	def __init__(self, arg):
-		super(Structure_CT, self).__init__()
-		self.name = arg[1]
-		self.num_bases = int(arg[0])
-		self.bases = []
-
-	def add_base(self, arg):
-		super(Structure_CT, self).__init__()
-		temp = Base_CT(arg)
-		self.bases.append(temp)
-
-	def __str__(self):
-		return(self.name + " of length " + self.num_bases)
-
 class Structure_SFold(object):
 	"""docstring for Structure_SFold"""
 	def __init__(self, arg):
@@ -55,11 +10,13 @@ class Structure_SFold(object):
 		self.count = int(arg[1])
 		self.boltzmann_weight = float(arg[2])
 		self.energy = float(arg[3])
-		self.pairs = []
+		self.pairs = {}
+		self.start = []
 
 	def add_pair(self, arg):
 		super(Structure_SFold, self).__init__()
-		self.pairs.append(arg)
+		self.pairs[int(arg[0])-1] = int(arg[1])-1
+		self.start.append(int(arg[0])-1)
 
 	def __str__(self):
 		return (str(self.count) + ": weight - " + str(self.boltzmann_weight) + ", energy - " + str(self.energy) + "\n" + str(self.pairs))
@@ -81,30 +38,6 @@ def parse_seq_file(seq_file):
 			seq += data[i]
 	return seq
 
-def parse_ct_file(input_file):
-	file = open(input_file)
-	data = file.read().splitlines()
-	structures = []
-	for i in range(len(data)):
-		data[i]= data[i].split()
-	
-	i = 0
-	current = -1
-	while i < len(data):
-		if len(data[i]) != 6:
-			current += 1
-			temp = Structure_CT(data[i])
-			structures.append(temp)
-		else:
-			structures[current].add_base(data[i])
-		i += 1
-
-	# for sample in structures:
-		# print (str(sample))
-		# for base in sample.bases:
-			# print(base)
-
-	return structures
 
 def parse_sfold_file(input_file):
 	file = open(input_file)
@@ -125,34 +58,9 @@ def parse_sfold_file(input_file):
 			temp = Structure_SFold(data[i])
 			structures.append(temp)
 		else:
-			structures[current].add_pair(int(data[i][0])-1)
-			structures[current].add_pair(int(data[i][1])-1)
+			structures[current].add_pair(data[i])
 		i += 1
 	return structures
-
-def get_pairs(structures):
-	pairs = []
-	for structure in structures:
-		temp = []
-		check = set()
-		for base in structure.bases:
-			if base.pair_index != 0:
-				if base.pair_index not in check:
-					check.add(base.pair_index)
-					check.add(base.base_number)
-					temp.append(base.base_number)
-					temp.append(base.pair_index)
-		pairs.append(temp)
-	# print (pairs)
-
-	return pairs
-
-def DotBracketConversion(pairs, parsed):
-	answer = []
-	for i in range(len(pairs)):
-		# print (len(pairs[i]), parsed[i].num_bases, pairs[i])
-		answer.append(StructureFromPairs(pairs[i], parsed[i].num_bases))
-	return answer
 
 def MetropolisHastings(structures, seq):
 	
@@ -162,98 +70,166 @@ def MetropolisHastings(structures, seq):
 		if a == b:
 			sample(a,structures)
 		return b 
-	def backtrack(answer,value,pair,t,check):
+
+	def check(a,b,i):
+		#accepted i, a[i], check a[i] not in b
+		try:
+			b.pairs[a.pairs[a.start[i]]]
+			backtrack(a,b,i,t,"a",0)
+		except KeyError:
+			pass
+
+	def backtrack(a,b,i,t,a_b,n):
+		""" 
+		a,b are the two structures
+		index is the current index
+		t is the number of ties
+		a_b is designating which has conflict
+		n is first or second of pair
+		"""
+		print(a_b,str(n),str(i))
+
 		t += 1
-		index = int()
-		for i in range(len(answer)):
-			if answer[i] == value:
-				index = i
-				break
-		if pair in check:
-			return
+		#select a pair
 		if random.randint(0,1) == 1:
-			if (index % 2 == 1):
-				check.remove(answer[index-1])
-				check.add(pair)
-				answer.remove(value)
-				answer.remove(answer[index-1])
-				if value < pair:
-					answer.append(value)
-					answer.append(pair)
+			if a_b == "a":
+				if n == 0:
+					print(len(b.pairs))
+					b.pairs.pop(a.start[i])
+					check(a,b,i)
+					print(len(b.pairs))
 				else:
-					answer.append(pair)
-					answer.append(value)
+					print(len(b.pairs))
+					b.pairs.pop(a.pairs[a.start[i]])
+					check(a,b,i)
+					print(len(b.pairs))
+			else:
+				if n == 0:
+					print(len(a.pairs))
+					a.pairs.pop(b.start[i])
+					check(b,a,i)
+					print(len(a.pairs))
+				else:
+					print(len(a.pairs))
+					a.pairs.pop(b.pairs[b.start[i]])
+					check(b,a,i)
+					print(len(a.pairs))
+		#select b pair
+		else:
+			if a_b == "a":
+				print(len(a.pairs))
+				a.pairs.pop(a.start[i])
+				check(b,a,i)
+				print(len(a.pairs))
+			else:
+				print(len(b.pairs))
+				b.pairs.pop(b.start[i])
+				check(a,b,i)
+				print(len(b.pairs))
+
+	def get_pairs(a,b,L):
+		answer = []
+		for i in range(L):
+			try:
+				a_i = a.pairs[i]
+				answer.append(i)
+				answer.append(a_i)
+			except KeyError:
+				pass
+			try:
+				b_i = b.pairs[i]
+				answer.append(i)
+				answer.append(b_i)
+			except KeyError:
+				pass
+		return answer
+
 	#combines structure a and structure b
 	def combine(a,b):
 		answer = []
 		t = 0
-		L_max = len(a.pairs)
-		L_min = len(b.pairs)
-		i =0; j = 0
-		check = set()
+		L_max = len(a.start)
+		L_min = len(b.start)
+		i = 0; j = 0
+		temp1 = a
+		temp2 = b
 		while(i < L_max):
 			if (j >= L_min):
-				if a.pairs[i] in check:
-					backtrack(answer,a.pairs[i],a.pairs[i+1],t,check)
-				elif a.pairs[i+1] in check:
-					backtrack(answer,a.pairs[i+1],a.pairs[i],t,check)
-				else:
-					answer.append(a.pairs[i])
-					answer.append(a.pairs[i+1])
-					check.add(a.pairs[i])
-					check.add(a.pairs[i+1])
+				try:
+					temp2.pairs[temp1.start[i]]
+					backtrack(temp1,temp2,i,t,"a",0)
+				except KeyError:
+					pass
+				try:
+					temp2.pairs[temp1.pairs[temp1.start[i]]]
+					backtrack(temp1,temp2,i,t,"a",1)
+				except KeyError:
+					pass
 				i += 2
 
-			elif (a.pairs[i] > b.pairs[j]):
-				if b.pairs[j] in check:
-					backtrack(answer,b.pairs[j],b.pairs[j+1],t,check)
-				elif b.pairs[j+1] in check:
-					backtrack(answer,b.pairs[j+1],b.pairs[j],t,check)
-				else:
-					answer.append(b.pairs[j])
-					answer.append(b.pairs[j+1])
-					check.add(b.pairs[j])
-					check.add(b.pairs[j+1])
+			elif (temp1.start[i] > temp2.start[j]):
+				try:
+					temp1.pairs[temp2.start[j]]
+					backtrack(temp1,temp2,j,t,"b",0)
+				except KeyError:
+					pass
+				try:
+					temp1.pairs[temp2.pairs[temp2.start[j]]]
+					backtrack(temp1,temp2,j,t,"b",1)
+				except KeyError:
+					pass
 				j += 2
 
-			elif (a.pairs[i] < b.pairs[j]):
-				if a.pairs[i] in check:
-					backtrack(answer,a.pairs[i],a.pairs[i+1],t,check)
-				elif a.pairs[i+1] in check:
-					backtrack(answer,a.pairs[i+1],a.pairs[i],t,check)
-				else:
-					answer.append(a.pairs[i])
-					answer.append(a.pairs[i+1])
-					check.add(a.pairs[i])
-					check.add(a.pairs[i+1])
+			elif (temp1.start[i] < temp2.start[j]):
+				try:
+					temp2.pairs[temp1.start[i]]
+					backtrack(temp1,temp2,i,t,"a",0)
+				except KeyError:
+					pass
+				try:
+					temp2.pairs[temp1.pairs[temp1.start[i]]]
+					backtrack(temp1,temp2,i,t,"a",1)
+				except KeyError:
+					pass
 				i += 2
 			
-			elif (a.pairs[i] == b.pairs[j]):
+			elif (temp1.start[i] == temp2.start[j]):
 				if random.randint(0,1) == 0:
-					if a.pairs[i] in check:
-						backtrack(answer,a.pairs[i],a.pairs[i+1],t,check)
-					elif a.pairs[i+1] in check:
-						backtrack(answer,a.pairs[i+1],a.pairs[i],t,check)
-					else:
-						answer.append(a.pairs[i])
-						answer.append(a.pairs[i+1])
-						check.add(a.pairs[i])
-						check.add(a.pairs[i+1])
+					try:
+						temp2.pairs[temp1.start[i]]
+						backtrack(temp1,temp2,i,t,"a",0)
+					except KeyError:
+						pass
+					try:
+						temp2.pairs[temp1.pairs[temp1.start[i]]]
+						backtrack(temp1,temp2,i,t,"a",1)
+					except KeyError:
+						pass
 				else:
-					if b.pairs[j] in check:
-						backtrack(answer,b.pairs[j],b.pairs[j+1],t,check)
-					elif b.pairs[j+1] in check:
-						backtrack(answer,b.pairs[j+1],b.pairs[j],t,check)
-					else:
-						answer.append(b.pairs[j])
-						answer.append(b.pairs[j+1])
-						check.add(b.pairs[j])
-						check.add(b.pairs[j+1])
+					try:
+						temp1.pairs[temp2.start[j]]
+						backtrack(temp1,temp2,j,t,"b",0)
+					except KeyError:
+						pass
+					try:
+						temp1.pairs[temp2.pairs[temp2.start[j]]]
+						backtrack(temp1,temp2,j,t,"b",1)
+					except KeyError:
+						pass
 				i += 2
 				j += 2
 				t += 1
-
+		answer = get_pairs(temp1,temp2,len(seq))
+		print (answer)
+		print (t)
+		x = set()
+		for item in answer:
+			if item in x:
+				print(str(item), "in set")
+			else:
+				x.add(item)
 		return answer, t
+
 	#call nupack and return the resulting energy
 	def get_structure_energy(seq, pairs):
 		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in > $RESEARCH/output_files/nupack_out.txt'
@@ -293,17 +269,19 @@ def MetropolisHastings(structures, seq):
 	except IndexError:
 		print("ERROR: Structures list is empty.")
 		return 1
-	# print (len(a), a)
-	# print(len(b), b)
+	
+	# ###TESTS
+	# print (len(a.pairs), a)
+	# print("")
+	# print(len(b.pairs), b)
 
 	#Step 2: Combine a,b into a new structure, current
 	#t_current = # of coin flips to break ties
-	if len(a.pairs) > len(b.pairs):
+	if len(a.start) >+ len(b.start):
 		current, t_current = combine(a,b)
 	else:
 		current, t_current = combine(b,a)
-	# print (current, t_current)
-	print(current)
+
 	energy_current = get_structure_energy(seq, current)
 
 	#Step 3: Set sample-list = {}
@@ -314,6 +292,9 @@ def MetropolisHastings(structures, seq):
 	burnin = 1000
 	count = 0 
 	exists = 0
+	
+	"""
+
 	while (count < burnin):
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
@@ -353,26 +334,18 @@ def MetropolisHastings(structures, seq):
 
 
 		count += 1
+
+	"""
+
 	return current, StructureFromPairs(current,len(seq))
 
 def main():
 	input_file, seq_file = get_file()
 	seq = parse_seq_file(seq_file)
-	# parsed_ct = parse_ct_file(input_file)
 	parsed_sfold = parse_sfold_file(input_file)
-	# print(parsed_sfold[0])
-	# print(len(parsed_sfold))
-	# pairs = get_pairs(parsed)
-	# structs = DotBracketConversion(pairs, parsed)
-	# print (len(structs[0]), structs[0])
-	# print(parsed_sfold[0].pairs)
 	current, dot_bracket = MetropolisHastings(parsed_sfold, seq)
-	print(current)
-	print(dot_bracket)
-	# db_current = StructureFromPairs(current,451)
-	# db_proposal = StructureFromPairs(proposal,451)
-	# print(db_current)
-	# print(db_proposal)
+	# print(current)
+	# print(dot_bracket)
 	return 0
 
 if __name__ == "__main__":

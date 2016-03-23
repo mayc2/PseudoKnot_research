@@ -1,8 +1,2 @@
-% NUPACK 3.0
-% Program: energy
-% Start time: Tue Mar  8 10:53:14 2016
-% Command: /home/chris/devtree/research/nupack3.0.5/bin/energy -pseudo /home/chris/devtree/research/input_files/nupack_in 
-
-
-*** Error: invalid base pair(s) or disconnected complex. Check your inputs. ***
-
+Error in /home/chris/devtree/pseudoKnot_research/input_files/nupack_in.in: Perhaps you need the -multi flag.
+Requesting input manually.

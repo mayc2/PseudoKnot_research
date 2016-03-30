@@ -71,10 +71,10 @@ def MetropolisHastings(structures, seq):
 			sample(a,structures)
 		return b 
 
-	def check(a,b,i):
+	def check(a,b,temp):
 		#accepted i, a[i], check a[i] not in b
 		try:
-			b.pairs[a.pairs[a.start[i]]]
+			b.pairs[a.pairs[temp]]
 			backtrack(a,b,i,t,"a",0)
 		except KeyError:
 			pass
@@ -118,13 +118,15 @@ def MetropolisHastings(structures, seq):
 		else:
 			if a_b == "a":
 				print(len(a.pairs))
+				temp = a.start[i]
 				a.pairs.pop(a.start[i])
-				check(b,a,i)
+				check(b,a,temp)
 				print(len(a.pairs))
 			else:
 				print(len(b.pairs))
+				temp = b.start[i]
 				b.pairs.pop(b.start[i])
-				check(a,b,i)
+				check(a,b,temp)
 				print(len(b.pairs))
 
 	def get_pairs(a,b,L):
@@ -231,12 +233,12 @@ def MetropolisHastings(structures, seq):
 		return answer, t
 
 	#call nupack and return the resulting energy
-	def get_structure_energy(seq, pairs):
+	def get_structure_energy(pairs):
 		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in > $RESEARCH/output_files/nupack_out.txt'
 		dot_bracket = StructureFromPairs(pairs,len(seq))
-		if generate_inFile(seq,dot_bracket) != 0:
+		if generate_inFile(dot_bracket) != 0:
 			print("ERROR: Failed to generate nupack_in.in file")
-			return 1
+			sys.exit(1)
 		os.system(cmd)
 		energy_file = "output_files/nupack_out.txt"
 		file = open(energy_file)
@@ -245,8 +247,8 @@ def MetropolisHastings(structures, seq):
 			return float(data[len(data)-1])
 		else:
 			# print("ERROR: unable to get energy, check nupack_out.txt")
-			return 
-	def generate_inFile(seq,dot_bracket):
+			return float(10**8)
+	def generate_inFile(dot_bracket):
 		nupack_file = "input_files/nupack_in.in"
 		file = open(nupack_file, "w")
 		file.write(seq+"\n")
@@ -268,7 +270,7 @@ def MetropolisHastings(structures, seq):
 		b = sample(a,structures)
 	except IndexError:
 		print("ERROR: Structures list is empty.")
-		return 1
+		sys.exit(1)
 	
 	# ###TESTS
 	# print (len(a.pairs), a)
@@ -277,13 +279,14 @@ def MetropolisHastings(structures, seq):
 
 	#Step 2: Combine a,b into a new structure, current
 	#t_current = # of coin flips to break ties
-	if len(a.start) >+ len(b.start):
+	if len(a.start) >= len(b.start):
 		current, t_current = combine(a,b)
 	else:
 		current, t_current = combine(b,a)
 
-	energy_current = get_structure_energy(seq, current)
+	energy_current = get_structure_energy(current)
 
+	print("gets here")
 	#Step 3: Set sample-list = {}
 	sample_list = {}
 
@@ -344,8 +347,8 @@ def main():
 	seq = parse_seq_file(seq_file)
 	parsed_sfold = parse_sfold_file(input_file)
 	current, dot_bracket = MetropolisHastings(parsed_sfold, seq)
-	# print(current)
-	# print(dot_bracket)
+	print(current)
+	print(dot_bracket)
 	return 0
 
 if __name__ == "__main__":

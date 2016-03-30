@@ -10,13 +10,12 @@ class Structure_SFold(object):
 		self.count = int(arg[1])
 		self.boltzmann_weight = float(arg[2])
 		self.energy = float(arg[3])
-		self.pairs = {}
-		self.start = []
+		self.pairs = []
 
 	def add_pair(self, arg):
 		super(Structure_SFold, self).__init__()
-		self.pairs[int(arg[0])-1] = int(arg[1])-1
-		self.start.append(int(arg[0])-1)
+		self.pairs.append(int(arg[0])-1) 
+		self.pairs.append(int(arg[1])-1)
 
 	def __str__(self):
 		return (str(self.count) + ": weight - " + str(self.boltzmann_weight) + ", energy - " + str(self.energy) + "\n" + str(self.pairs))
@@ -24,7 +23,7 @@ class Structure_SFold(object):
 def get_file():
 	if len(sys.argv) != 3:
 		print("Incorrect number of arguments.")
-		return 1
+		sys.exit(1)
 	input_file = sys.argv[1]
 	seq_file = sys.argv[2]
 	return input_file, seq_file
@@ -71,165 +70,104 @@ def MetropolisHastings(structures, seq):
 			sample(a,structures)
 		return b 
 
-	def check(a,b,temp):
-		#accepted i, a[i], check a[i] not in b
-		try:
-			b.pairs[a.pairs[temp]]
-			backtrack(a,b,i,t,"a",0)
-		except KeyError:
-			pass
+	def generate_dictionaries(a,b):
+		pairsA = {}
+		pairsB = {}
+		for i in range(0,len(a.pairs),2):
+			pairsA[a.pairs[i]] = a.pairs[i+1]
+			pairsA[a.pairs[i+1]] = a.pairs[i]
+		for i in range(0,len(b.pairs),2):
+			pairsB[b.pairs[i]] = b.pairs[i+1]
+			pairsB[b.pairs[i+1]] = b.pairs[i]
+		return pairsA, pairsB
 
-	def backtrack(a,b,i,t,a_b,n):
-		""" 
-		a,b are the two structures
-		index is the current index
-		t is the number of ties
-		a_b is designating which has conflict
-		n is first or second of pair
-		"""
-		print(a_b,str(n),str(i))
-
+	#handles ties between pairs in the structures
+	def handle_ties(key,a,b,t):
 		t += 1
-		#select a pair
-		if random.randint(0,1) == 1:
-			if a_b == "a":
-				if n == 0:
-					print(len(b.pairs))
-					b.pairs.pop(a.start[i])
-					check(a,b,i)
-					print(len(b.pairs))
-				else:
-					print(len(b.pairs))
-					b.pairs.pop(a.pairs[a.start[i]])
-					check(a,b,i)
-					print(len(b.pairs))
-			else:
-				if n == 0:
-					print(len(a.pairs))
-					a.pairs.pop(b.start[i])
-					check(b,a,i)
-					print(len(a.pairs))
-				else:
-					print(len(a.pairs))
-					a.pairs.pop(b.pairs[b.start[i]])
-					check(b,a,i)
-					print(len(a.pairs))
-		#select b pair
+		if random.randint(0,1) == 0:
+			other = b[key]
+			b.pop(key)
+			b.pop(other)
+			if a[key] in b:
+				t = handle_ties(a[key],a,b,t)
 		else:
-			if a_b == "a":
-				print(len(a.pairs))
-				temp = a.start[i]
-				a.pairs.pop(a.start[i])
-				check(b,a,temp)
-				print(len(a.pairs))
-			else:
-				print(len(b.pairs))
-				temp = b.start[i]
-				b.pairs.pop(b.start[i])
-				check(a,b,temp)
-				print(len(b.pairs))
+			other = a[key]
+			a.pop(key)
+			a.pop(other)
+			if b[key] in a:
+				t = handle_ties(b[key],b,a,t)
+		return t
 
-	def get_pairs(a,b,L):
+	def helper(a,b,t):
+		for key in a.keys():
+			if key in b:
+				t = handle_ties(key,a,b,t)
+				t = helper(a,b,t)
+				break
+		return t
+
+	#recursively check if there are duplicates in the dictionaries of pairs
+	def remove_duplicates(a,b):
+		t = 0
+		for key in a.keys():
+			if key in b:
+				t = handle_ties(key,a,b,t)
+				t = helper(a,b,t)
+				break
+		return t
+
+	def trim(a):
+		for key in a.keys():
+			if a[key] in a.keys():
+				if key < a[key]:
+					a.pop(a[key])
+				else:
+					a.pop(key)
+				trim(a)
+				break
+
+	def backtrack(a,b):
+		trim(a)
+		trim(b)
+		keysA = list(a)
+		keysB = list(b)
+		keysA.sort()
+		keysB.sort()
 		answer = []
-		for i in range(L):
-			try:
-				a_i = a.pairs[i]
-				answer.append(i)
-				answer.append(a_i)
-			except KeyError:
-				pass
-			try:
-				b_i = b.pairs[i]
-				answer.append(i)
-				answer.append(b_i)
-			except KeyError:
-				pass
+		i = 0
+		j = 0
+		while(i < len(keysA) and j <len(keysB)):
+			if keysA[i] < keysB[j]:
+				answer.append(keysA[i])
+				answer.append(a[keysA[i]])
+				i += 1
+			else:
+				answer.append(keysB[j])
+				answer.append(b[keysB[j]])
+				j += 1
+		while i < len(keysA):
+			answer.append(keysA[i])
+			answer.append(a[keysA[i]])
+			i += 1
+		while j < len(keysB):
+			answer.append(keysB[j])
+			answer.append(b[keysB[j]])
+			j += 1
 		return answer
+
+	def check(answer):
+		zest = set()
+		for item in answer:
+			if item in zest:
+				print(str(item) + "is already in the set.")
+			else:
+				zest.add(item)
 
 	#combines structure a and structure b
 	def combine(a,b):
-		answer = []
-		t = 0
-		L_max = len(a.start)
-		L_min = len(b.start)
-		i = 0; j = 0
-		temp1 = a
-		temp2 = b
-		while(i < L_max):
-			if (j >= L_min):
-				try:
-					temp2.pairs[temp1.start[i]]
-					backtrack(temp1,temp2,i,t,"a",0)
-				except KeyError:
-					pass
-				try:
-					temp2.pairs[temp1.pairs[temp1.start[i]]]
-					backtrack(temp1,temp2,i,t,"a",1)
-				except KeyError:
-					pass
-				i += 2
-
-			elif (temp1.start[i] > temp2.start[j]):
-				try:
-					temp1.pairs[temp2.start[j]]
-					backtrack(temp1,temp2,j,t,"b",0)
-				except KeyError:
-					pass
-				try:
-					temp1.pairs[temp2.pairs[temp2.start[j]]]
-					backtrack(temp1,temp2,j,t,"b",1)
-				except KeyError:
-					pass
-				j += 2
-
-			elif (temp1.start[i] < temp2.start[j]):
-				try:
-					temp2.pairs[temp1.start[i]]
-					backtrack(temp1,temp2,i,t,"a",0)
-				except KeyError:
-					pass
-				try:
-					temp2.pairs[temp1.pairs[temp1.start[i]]]
-					backtrack(temp1,temp2,i,t,"a",1)
-				except KeyError:
-					pass
-				i += 2
-			
-			elif (temp1.start[i] == temp2.start[j]):
-				if random.randint(0,1) == 0:
-					try:
-						temp2.pairs[temp1.start[i]]
-						backtrack(temp1,temp2,i,t,"a",0)
-					except KeyError:
-						pass
-					try:
-						temp2.pairs[temp1.pairs[temp1.start[i]]]
-						backtrack(temp1,temp2,i,t,"a",1)
-					except KeyError:
-						pass
-				else:
-					try:
-						temp1.pairs[temp2.start[j]]
-						backtrack(temp1,temp2,j,t,"b",0)
-					except KeyError:
-						pass
-					try:
-						temp1.pairs[temp2.pairs[temp2.start[j]]]
-						backtrack(temp1,temp2,j,t,"b",1)
-					except KeyError:
-						pass
-				i += 2
-				j += 2
-				t += 1
-		answer = get_pairs(temp1,temp2,len(seq))
-		print (answer)
-		print (t)
-		x = set()
-		for item in answer:
-			if item in x:
-				print(str(item), "in set")
-			else:
-				x.add(item)
+		t = remove_duplicates(a,b)
+		answer = backtrack(a,b)
+		check(answer)
 		return answer, t
 
 	#call nupack and return the resulting energy
@@ -244,10 +182,12 @@ def MetropolisHastings(structures, seq):
 		file = open(energy_file)
 		data = file.read().splitlines()
 		if (data[len(data)-2] == "% Energy (kcal/mol):"):
+			# print("Nupack Succeeded")
 			return float(data[len(data)-1])
 		else:
-			# print("ERROR: unable to get energy, check nupack_out.txt")
+			# print("Nupack failed, establishing large energy value (10**8)")
 			return float(10**8)
+
 	def generate_inFile(dot_bracket):
 		nupack_file = "input_files/nupack_in.in"
 		file = open(nupack_file, "w")
@@ -255,10 +195,10 @@ def MetropolisHastings(structures, seq):
 		file.write(dot_bracket)
 		file.close()
 		return 0
+
 	def StructureFromPairs(pairs, L):
 	    struct = list('.' * L)
 	    for i in range(0, len(pairs), 2):
-	        # print(i,i+1,pairs[i],pairs[i+1],L)
 	        struct[pairs[i]] = '('
 	        struct[pairs[i+1]] = ')'
 	        
@@ -279,14 +219,13 @@ def MetropolisHastings(structures, seq):
 
 	#Step 2: Combine a,b into a new structure, current
 	#t_current = # of coin flips to break ties
-	if len(a.start) >= len(b.start):
-		current, t_current = combine(a,b)
-	else:
-		current, t_current = combine(b,a)
+	pairsA, pairsB = generate_dictionaries(a,b)
+	current, t_current = combine(pairsA,pairsB)
+	# print(current)
+	# print(t_current)
 
 	energy_current = get_structure_energy(current)
 
-	print("gets here")
 	#Step 3: Set sample-list = {}
 	sample_list = {}
 
@@ -296,8 +235,6 @@ def MetropolisHastings(structures, seq):
 	count = 0 
 	exists = 0
 	
-	"""
-
 	while (count < burnin):
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
@@ -308,12 +245,10 @@ def MetropolisHastings(structures, seq):
 			print("ERROR: Structures list is empty.")
 			return 1
 		
-		if len(a.pairs) > len(b.pairs):
-			proposal, t_proposal = combine(i,j)
-		else:
-			proposal, t_proposal = combine(i,j)
+		pairsI, pairsJ = generate_dictionaries(i,j)
+		proposal, t_proposal = combine(pairsI,pairsJ)
 
-		energy_proposal = get_structure_energy(seq, proposal)
+		energy_proposal = get_structure_energy(proposal)
 		# print("CHECKING FOR DUPLICATES: " + str(len(proposal) == len(set(proposal))) )
 		#Step 6: Calculate Transition Functions
 		#T(proposal|current) = T(proposal) = P(S_i)*P(S_j)*(0.5)**t_proposal
@@ -338,8 +273,8 @@ def MetropolisHastings(structures, seq):
 
 		count += 1
 
-	"""
 
+	# return current
 	return current, StructureFromPairs(current,len(seq))
 
 def main():
@@ -347,6 +282,7 @@ def main():
 	seq = parse_seq_file(seq_file)
 	parsed_sfold = parse_sfold_file(input_file)
 	current, dot_bracket = MetropolisHastings(parsed_sfold, seq)
+	# current = MetropolisHastings(parsed_sfold, seq)
 	print(current)
 	print(dot_bracket)
 	return 0

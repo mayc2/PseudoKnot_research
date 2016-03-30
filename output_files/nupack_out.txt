@@ -1,2 +1,8 @@
-Error in /home/chris/devtree/pseudoKnot_research/input_files/nupack_in.in: Perhaps you need the -multi flag.
-Requesting input manually.
+% NUPACK 3.0
+% Program: energy
+% Start time: Wed Mar 30 17:41:47 2016
+% Command: /home/chris/devtree/pseudoKnot_research/nupack3.0.5/bin/energy -pseudo /home/chris/devtree/pseudoKnot_research/input_files/nupack_in 
+
+
+*** Error: invalid base pair(s) or disconnected complex. Check your inputs. ***
+

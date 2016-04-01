@@ -1,6 +1,6 @@
 % NUPACK 3.0
 % Program: energy
-% Start time: Wed Mar 30 17:41:47 2016
+% Start time: Fri Apr  1 09:03:23 2016
 % Command: /home/chris/devtree/pseudoKnot_research/nupack3.0.5/bin/energy -pseudo /home/chris/devtree/pseudoKnot_research/input_files/nupack_in 
 
 

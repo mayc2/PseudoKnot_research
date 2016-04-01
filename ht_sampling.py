@@ -203,6 +203,13 @@ def MetropolisHastings(structures, seq):
 	        struct[pairs[i+1]] = ')'
 	        
 	    return ''.join(struct)
+	
+	def adjust_counts(current,counts):
+		for (i,j) in enumerate(current):
+			if (i,j) in counts:
+				counts[(i,j)] += 1.0
+			else:
+				counts[(i,j)] = 1.0
 
 	#Step 1: finding a,b sample for current
 	try:
@@ -211,7 +218,7 @@ def MetropolisHastings(structures, seq):
 	except IndexError:
 		print("ERROR: Structures list is empty.")
 		sys.exit(1)
-	
+
 	# ###TESTS
 	# print (len(a.pairs), a)
 	# print("")
@@ -231,11 +238,17 @@ def MetropolisHastings(structures, seq):
 
 	#Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
-	burnin = 1000
+	burnin = 100000
 	count = 0 
 	exists = 0
 	
+	counts = {}	
+	acceptance_rate = 0.0
+	
+	print("beginning Burn in iterations")
 	while (count < burnin):
+		if(count % 10000) == 0:
+			print("working")
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
 		try:
@@ -259,20 +272,28 @@ def MetropolisHastings(structures, seq):
 
 		# print(Transition_proposal, Transition_current)
 		#Step 7: Compute Probability/Select whether to accept 
-		if energy_proposal != None:
-			R = float(13807E-23) * float(6022E23)
-			T = 37.0
-			Probability = min(1.0, (Transition_current * (-1.0 * energy_proposal)/(R * T))/ (Transition_proposal * (-1.0* energy_current)/(R * T)))
-			if Probability == 1:
-				print("accepting proposal")
-				a = i
-				b = j
-				current = proposal
-				t_current = t_proposal
-
+		R = float(13807E-23) * float(6022E23)
+		T = 37.0
+		Probability = min(1.0, (Transition_current * (-1.0 * energy_proposal)/(R * T))/ (Transition_proposal * (-1.0* energy_current)/(R * T)))
+		if Probability == 1:
+			# print("accepting proposal")
+			a = i
+			b = j
+			current = proposal
+			t_current = t_proposal
+			acceptance_rate += 1.0
+			adjust_counts(current,counts)
 
 		count += 1
+	
+	centroid = []
+	keys = list(counts)
+	keys.sort()
+	for key in keys:
+		if (counts[key]/acceptance_rate) >= 0.5:
+			centroid.append(key)
 
+	print(centroid)
 
 	# return current
 	return current, StructureFromPairs(current,len(seq))

@@ -181,6 +181,9 @@ def MetropolisHastings(structures, seq):
 		energy_file = "output_files/nupack_out.txt"
 		file = open(energy_file)
 		data = file.read().splitlines()
+		if len(data) <= 2:
+			print("length of Nupack file is 0")
+			sys.exit(1)
 		if (data[len(data)-2] == "% Energy (kcal/mol):"):
 			# print("Nupack Succeeded")
 			return float(data[len(data)-1])
@@ -238,7 +241,7 @@ def MetropolisHastings(structures, seq):
 
 	#Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
-	burnin = 100000
+	burnin = 1000
 	count = 0 
 	exists = 0
 	
@@ -247,8 +250,8 @@ def MetropolisHastings(structures, seq):
 	
 	print("beginning Burn in iterations")
 	while (count < burnin):
-		if(count % 10000) == 0:
-			print("working")
+		# if(count % 10000) == 0:
+			# print("working")
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
 		try:
@@ -269,20 +272,38 @@ def MetropolisHastings(structures, seq):
 
 		Transition_proposal = i.boltzmann_weight * j.boltzmann_weight * 0.5**t_proposal
 		Transition_current = a.boltzmann_weight * b.boltzmann_weight * 0.5**t_current
-
+		# print(Transition_proposal,Transition_current)
 		# print(Transition_proposal, Transition_current)
 		#Step 7: Compute Probability/Select whether to accept 
-		R = float(13807E-23) * float(6022E23)
-		T = 37.0
-		Probability = min(1.0, (Transition_current * (-1.0 * energy_proposal)/(R * T))/ (Transition_proposal * (-1.0* energy_current)/(R * T)))
+		R = float(13807E-23) * float(6.022E23)
+		# T = 37.0
+		T = float(275.928)
+
+		print("energies:" , str(energy_proposal),str(energy_current))
+		temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
+		temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
+		ans = temp/ temp2
+		# print("temp: " + str(ans))
+		Probability = min(1.0, ans )
+		# print(Probability)
 		if Probability == 1:
-			# print("accepting proposal")
+			print("accepting proposal")
 			a = i
 			b = j
 			current = proposal
 			t_current = t_proposal
+			energy_current = energy_proposal
 			acceptance_rate += 1.0
-			adjust_counts(current,counts)
+		else:
+			x = random.random()
+			if Probability > x:
+				a = i
+				b = j
+				current = proposal
+				t_current = t_proposal
+				energy_current = energy_proposal
+				acceptance_rate += 1.0
+		adjust_counts(current,counts)
 
 		count += 1
 	
@@ -290,7 +311,7 @@ def MetropolisHastings(structures, seq):
 	keys = list(counts)
 	keys.sort()
 	for key in keys:
-		if (counts[key]/acceptance_rate) >= 0.5:
+		if (counts[key]/count) >= 0.5:
 			centroid.append(key)
 
 	print(centroid)

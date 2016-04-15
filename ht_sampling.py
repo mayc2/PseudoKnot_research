@@ -173,11 +173,18 @@ def MetropolisHastings(structures, seq):
 	def HotKnots(pairs):
 		dot_bracket = " \"" + StructureFromPairs(pairs, len(seq)) +"\""
 		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + ' > $RESEARCH/output_files/hotknots_out.txt'
-		# cmd = '$HOTKNOTS/bin/computeEnergy -p params/turner_parameters_fm363_constrdangles.txt -s CGGUCAUAAGAGAUAAGCUAGCGUCCUAAUCUAUCCCGGGUUAUGGCGCGAAACUCAGGGA \"(((((((((........................[[[[[[[))))))).))...]]].]]]]\"'
-		print(cmd)
+		os.chdir("/home/chris/devtree/pseudoKnot_research/HotKnots_v2.0/bin")
 		os.system(cmd)
-		# os.system("echo $?")
-
+		os.chdir("/home/chris/devtree/pseudoKnot_research")
+		energy_file = "output_files/hotknots_out.txt"
+		file = open(energy_file,'r',encoding='iso-8859-15')
+		data = file.read().splitlines()
+		line = data[len(data)-1]
+		line = line.split()
+		free_energy = float(line[1])
+		free_energy_wo_dangling = float(line[2])			
+		return  free_energy
+		
 	#call nupack and return the resulting energy
 	def get_structure_energy(pairs):
 		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in > $RESEARCH/output_files/nupack_out.txt'
@@ -257,74 +264,73 @@ def MetropolisHastings(structures, seq):
 	counts = {}	
 	acceptance_rate = 0.0
 	
-	# print("beginning Burn in iterations")
-	# while (count < burnin):
-	# 	# if(count % 10000) == 0:
-	# 		# print("working")
-	# 	#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
-	# 	#t_proposal = # of coins flips required to break ties
-	# 	try:
-	# 		i = sample(None, structures)
-	# 		j = sample(i, structures)
-	# 	except IndexError:
-	# 		print("ERROR: Structures list is empty.")
-	# 		return 1
+	print("beginning Burn in iterations")
+	while (count < burnin):
+		# if(count % 10000) == 0:
+			# print("working")
+		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
+		#t_proposal = # of coins flips required to break ties
+		try:
+			i = sample(None, structures)
+			j = sample(i, structures)
+		except IndexError:
+			print("ERROR: Structures list is empty.")
+			return 1
 		
-	# 	pairsI, pairsJ = generate_dictionaries(i,j)
-	# 	proposal, t_proposal = combine(pairsI,pairsJ)
+		pairsI, pairsJ = generate_dictionaries(i,j)
+		proposal, t_proposal = combine(pairsI,pairsJ)
 
-	# 	#TO-DO HotKnots Implementation
-	# 	energy_proposal = get_structure_energy(proposal)
-	# 	# print("CHECKING FOR DUPLICATES: " + str(len(proposal) == len(set(proposal))) )
-	# 	#Step 6: Calculate Transition Functions
-	# 	#T(proposal|current) = T(proposal) = P(S_i)*P(S_j)*(0.5)**t_proposal
-	# 	#T(current|proposal) = T(current) = P(S_a)*P(S_b)*(0.5)**t_current
+		#TO-DO HotKnots Implementation
+		energy_proposal = HotKnots(proposal)
+		# print("CHECKING FOR DUPLICATES: " + str(len(proposal) == len(set(proposal))) )
+		#Step 6: Calculate Transition Functions
+		#T(proposal|current) = T(proposal) = P(S_i)*P(S_j)*(0.5)**t_proposal
+		#T(current|proposal) = T(current) = P(S_a)*P(S_b)*(0.5)**t_current
 
-	# 	Transition_proposal = i.boltzmann_weight * j.boltzmann_weight * 0.5**t_proposal
-	# 	Transition_current = a.boltzmann_weight * b.boltzmann_weight * 0.5**t_current
-	# 	# print(Transition_proposal,Transition_current)
-	# 	# print(Transition_proposal, Transition_current)
-	# 	#Step 7: Compute Probability/Select whether to accept 
-	# 	R = float(13807E-23) * float(6.022E23)
-	# 	# T = 37.0
-	# 	T = float(275.928)
+		Transition_proposal = i.boltzmann_weight * j.boltzmann_weight * 0.5**t_proposal
+		Transition_current = a.boltzmann_weight * b.boltzmann_weight * 0.5**t_current
+		# print(Transition_proposal,Transition_current)
+		# print(Transition_proposal, Transition_current)
+		#Step 7: Compute Probability/Select whether to accept 
+		R = float(13807E-23) * float(6.022E23)
+		# T = 37.0
+		T = float(275.928)
 
-	# 	print("energies:" , str(energy_proposal),str(energy_current))
-	# 	temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
-	# 	temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
-	# 	ans = temp/ temp2
-	# 	# print("temp: " + str(ans))
-	# 	Probability = min(1.0, ans )
-	# 	# print(Probability)
-	# 	if Probability == 1:
-	# 		print("accepting proposal")
-	# 		a = i
-	# 		b = j
-	# 		current = proposal
-	# 		t_current = t_proposal
-	# 		energy_current = energy_proposal
-	# 		acceptance_rate += 1.0
-	# 	else:
-	# 		x = random.random()
-	# 		if Probability > x:
-	# 			a = i
-	# 			b = j
-	# 			current = proposal
-	# 			t_current = t_proposal
-	# 			energy_current = energy_proposal
-	# 			acceptance_rate += 1.0
-	# 	adjust_counts(current,counts)
-
-	# 	count += 1
+		# print("energies:" , str(energy_proposal),str(energy_current))
+		temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
+		temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
+		ans = temp/ temp2
+		# print("temp: " + str(ans))
+		Probability = min(1.0, ans )
+		# print(Probability)
+		if Probability == 1:
+			# print("accepting proposal")
+			a = i
+			b = j
+			current = proposal
+			t_current = t_proposal
+			energy_current = energy_proposal
+			acceptance_rate += 1.0
+		else:
+			x = random.random()
+			if Probability > x:
+				a = i
+				b = j
+				current = proposal
+				t_current = t_proposal
+				energy_current = energy_proposal
+				acceptance_rate += 1.0
+		adjust_counts(current,counts)
+		count += 1
 	
-	# centroid = []
-	# keys = list(counts)
-	# keys.sort()
-	# for key in keys:
-	# 	if (counts[key]/count) >= 0.5:
-	# 		centroid.append(key)
+	centroid = []
+	keys = list(counts)
+	keys.sort()
+	for key in keys:
+		if (counts[key]/count) >= 0.5:
+			centroid.append(key)
 
-	# print(centroid)
+	print(centroid)
 
 	# return current
 	return current, StructureFromPairs(current,len(seq))

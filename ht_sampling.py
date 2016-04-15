@@ -257,7 +257,7 @@ def MetropolisHastings(structures, seq):
 
 	#Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
-	burnin = 1000
+	burnin = 10000
 	count = 0 
 	exists = 0
 	
@@ -266,8 +266,9 @@ def MetropolisHastings(structures, seq):
 	
 	print("beginning Burn in iterations")
 	while (count < burnin):
-		# if(count % 10000) == 0:
-			# print("working")
+		if(count % 1000) == 0:
+			print("working on iteration " + str(count))
+			
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
 		try:

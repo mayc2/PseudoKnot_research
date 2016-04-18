@@ -171,7 +171,7 @@ def MetropolisHastings(structures, seq):
 		return answer, t
 
 	def HotKnots(pairs):
-		dot_bracket = " \"" + StructureFromPairs(pairs, len(seq)) +"\""
+		dot_bracket = " \"" + BracketedStructureFromPairs(pairs, len(seq)) +"\""
 		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + ' > $RESEARCH/output_files/hotknots_out.txt'
 		os.chdir("/home/chris/devtree/pseudoKnot_research/HotKnots_v2.0/bin")
 		os.system(cmd)
@@ -181,6 +181,8 @@ def MetropolisHastings(structures, seq):
 		data = file.read().splitlines()
 		line = data[len(data)-1]
 		line = line.split()
+		if line[1] == "the":
+			print("HotKnots failed")
 		free_energy = float(line[1])
 		free_energy_wo_dangling = float(line[2])			
 		return  free_energy
@@ -213,6 +215,44 @@ def MetropolisHastings(structures, seq):
 		file.write(dot_bracket)
 		file.close()
 		return 0
+		
+	def BracketedStructureFromPairs(pairs,L):
+		struct = list('.'*L)
+		stack0 = []
+		stack1 = []
+		s0_min = 0
+		s1_min = 0
+		s0_max = L
+		s1_max = L
+		current = 0
+		for i in range(0,len(pairs), 2):
+			if current == 0:
+				if pairs[i] > s0_min and pairs[i+1] < s0_max:
+					stack0.append((pairs[i],pairs[i+1]))
+					s0_min = pairs[i]
+					s0_max = pairs[i+1]
+				else:
+					stack1.append((pairs[i],pairs[i+1]))
+					s1_max = pairs[i+1]
+					s1_min = pairs[i]
+					current = 1
+			if current == 1:
+				if pairs[i] > s1_min and pairs[i+1] < s1_max:
+					stack1.append((pairs[i],pairs[i+1]))
+					s1_min = pairs[i]
+					s1_max = pairs[i+1]
+				else:
+					stack0.append((pairs[i],pairs[i+1]))
+					s0_max = pairs[i+1]
+					s0_min = pairs[i]
+					current = 0
+		for pair in stack0:
+			struct[pair[0]] = "("
+			struct[pair[1]] = ")"
+		for pair in stack1:
+			struct[pair[0]] = "["
+			struct[pair[1]] = "]"
+		return ''.join(struct)
 
 	def StructureFromPairs(pairs, L):
 	    struct = list('.' * L)
@@ -257,7 +297,7 @@ def MetropolisHastings(structures, seq):
 
 	#Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
-	burnin = 10000
+	burnin = 1000
 	count = 0 
 	exists = 0
 	
@@ -266,8 +306,8 @@ def MetropolisHastings(structures, seq):
 	
 	print("beginning Burn in iterations")
 	while (count < burnin):
-		if(count % 1000) == 0:
-			print("working on iteration " + str(count))
+		# if(count % (burnin/20)) == 0:
+		# 	print("working on iteration " + str(count))
 			
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
@@ -297,7 +337,7 @@ def MetropolisHastings(structures, seq):
 		# T = 37.0
 		T = float(275.928)
 
-		# print("energies:" , str(energy_proposal),str(energy_current))
+		print("energies:" , str(energy_proposal),str(energy_current))
 		temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
 		temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
 		ans = temp/ temp2

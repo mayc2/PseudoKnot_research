@@ -338,7 +338,7 @@ def MetropolisHastings(structures, seq):
 		# T = 37.0
 		T = float(275.928)
 
-		print("energies:" , str(energy_proposal),str(energy_current))
+		# print("energies:" , str(energy_proposal),str(energy_current))
 		temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
 		temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
 		ans = temp/ temp2
@@ -375,7 +375,7 @@ def MetropolisHastings(structures, seq):
 	print(centroid)
 
 	# return current
-	return current, StructureFromPairs(current,len(seq))
+	return current, BracketedStructureFromPairs(current,len(seq))
 
 def main():
 	input_file, seq_file = get_file()

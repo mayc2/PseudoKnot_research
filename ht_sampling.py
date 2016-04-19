@@ -339,14 +339,14 @@ def MetropolisHastings(structures, seq):
 		T = float(275.928)
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
-		temp = (Transition_current ** ((-1.0 * energy_proposal)/(R * T))) 
-		temp2 =  (Transition_proposal ** ((-1.0* energy_current)/(R * T)))
+		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T))) 
+		temp2 =  (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		ans = temp/ temp2
 		# print("temp: " + str(ans))
 		Probability = min(1.0, ans )
 		# print(Probability)
 		if Probability == 1:
-			# print("accepting proposal")
+			print("accepting proposal")
 			a = i
 			b = j
 			current = proposal
@@ -355,13 +355,18 @@ def MetropolisHastings(structures, seq):
 			acceptance_rate += 1.0
 		else:
 			x = random.random()
+			# print(x, Probability)
 			if Probability > x:
+				print("accepting proposal after failing")
 				a = i
 				b = j
 				current = proposal
 				t_current = t_proposal
 				energy_current = energy_proposal
 				acceptance_rate += 1.0
+			else:
+				print("doesn't accept proposal")
+				pass
 		adjust_counts(current,counts)
 		count += 1
 	

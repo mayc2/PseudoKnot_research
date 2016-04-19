@@ -173,9 +173,10 @@ def MetropolisHastings(structures, seq):
 	def HotKnots(pairs):
 		dot_bracket = " \"" + BracketedStructureFromPairs(pairs, len(seq)) +"\""
 		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + ' > $RESEARCH/output_files/hotknots_out.txt'
-		os.chdir("/home/chris/devtree/pseudoKnot_research/HotKnots_v2.0/bin")
+		relative_path = os.getcwd()
+		os.chdir(relative_path+"/HotKnots_v2.0/bin")
 		os.system(cmd)
-		os.chdir("/home/chris/devtree/pseudoKnot_research")
+		os.chdir(relative_path)
 		energy_file = "output_files/hotknots_out.txt"
 		file = open(energy_file,'r',encoding='iso-8859-15')
 		data = file.read().splitlines()

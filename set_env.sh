@@ -1,8 +1,9 @@
 #!/bin/bash
 
-cmd='export NUPACKHOME=/home/chris/devtree/pseudoKnot_research/nupack3.0.5'
-cmd2='export RESEARCH=/home/chris/devtree/pseudoKnot_research'
-cmd3='export HOTKNOTS=/home/chris/devtree/pseudoKnot_research/HotKnots_v2.0'
+RESEARCH=`pwd`
+cmd='export RESEARCH'
+cmd2='export NUPACKHOME=$RESEARCH/nupack3.0.5'
+cmd3='export HOTKNOTS=$RESEARCH/HotKnots_v2.0'
 
 $cmd
 if [ $? -ne 0 ]

@@ -346,7 +346,7 @@ def MetropolisHastings(structures, seq):
 		Probability = min(1.0, ans )
 		# print(Probability)
 		if Probability == 1:
-			print("accepting proposal")
+			# print("accepting proposal")
 			a = i
 			b = j
 			current = proposal
@@ -357,7 +357,7 @@ def MetropolisHastings(structures, seq):
 			x = random.random()
 			# print(x, Probability)
 			if Probability > x:
-				print("accepting proposal after failing")
+				# print("accepting proposal after failing")
 				a = i
 				b = j
 				current = proposal
@@ -365,7 +365,7 @@ def MetropolisHastings(structures, seq):
 				energy_current = energy_proposal
 				acceptance_rate += 1.0
 			else:
-				print("doesn't accept proposal")
+				# print("doesn't accept proposal")
 				pass
 		adjust_counts(current,counts)
 		count += 1

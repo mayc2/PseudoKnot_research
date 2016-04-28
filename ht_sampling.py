@@ -230,22 +230,22 @@ def MetropolisHastings(structures, seq):
 			if current == 0:
 				if pairs[i] > s0_min and pairs[i+1] < s0_max:
 					stack0.append((pairs[i],pairs[i+1]))
-					s0_min = pairs[i]
-					s0_max = pairs[i+1]
 				else:
 					stack1.append((pairs[i],pairs[i+1]))
-					s1_max = pairs[i+1]
-					s1_min = pairs[i]
+					if pairs[i+1] > s0_max:
+						s1_max = pairs[i+1]
+					if pairs[i] < s0_min:
+						s1_min = pairs[i]
 					current = 1
 			if current == 1:
 				if pairs[i] > s1_min and pairs[i+1] < s1_max:
 					stack1.append((pairs[i],pairs[i+1]))
-					s1_min = pairs[i]
-					s1_max = pairs[i+1]
 				else:
 					stack0.append((pairs[i],pairs[i+1]))
-					s0_max = pairs[i+1]
-					s0_min = pairs[i]
+					if pairs[i+1] > s1_max:
+						s0_max = pairs[i+1]
+					if pairs[i] < s1_min:
+						s0_min = pairs[i]
 					current = 0
 		for pair in stack0:
 			struct[pair[0]] = "("

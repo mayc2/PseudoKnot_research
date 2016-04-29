@@ -228,25 +228,23 @@ def MetropolisHastings(structures, seq):
 		current = 0
 		for i in range(0,len(pairs), 2):
 			if current == 0:
-				if pairs[i] > s0_min and pairs[i+1] < s0_max:
+				for pair in stack0:
+					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
+                    	or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+						stack1.append((pairs[i],pairs[i+1]))
+						current = 1
+						break
+				if current == 0:
 					stack0.append((pairs[i],pairs[i+1]))
-				else:
-					stack1.append((pairs[i],pairs[i+1]))
-					if pairs[i+1] > s0_max:
-						s1_max = pairs[i+1]
-					if pairs[i] < s0_min:
-						s1_min = pairs[i]
-					current = 1
 			if current == 1:
-				if pairs[i] > s1_min and pairs[i+1] < s1_max:
+				for pair in stack1:
+					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
+                    	or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+						stack0.append((pairs[i],pairs[i+1]))
+						current = 0
+						break
+				if current == 1:
 					stack1.append((pairs[i],pairs[i+1]))
-				else:
-					stack0.append((pairs[i],pairs[i+1]))
-					if pairs[i+1] > s1_max:
-						s0_max = pairs[i+1]
-					if pairs[i] < s1_min:
-						s0_min = pairs[i]
-					current = 0
 		for pair in stack0:
 			struct[pair[0]] = "("
 			struct[pair[1]] = ")"
@@ -264,11 +262,11 @@ def MetropolisHastings(structures, seq):
 	    return ''.join(struct)
 	
 	def adjust_counts(current,counts):
-		for (i,j) in enumerate(current):
-			if (i,j) in counts:
-				counts[(i,j)] += 1.0
+		for i in range(0,len(current),2):
+			if (current[i],current[i+1]) in counts:
+				counts[(current[i],current[i+1])] += 1.0
 			else:
-				counts[(i,j)] = 1.0
+				counts[(current[i],current[i+1])] = 1.0
 
 	#Step 1: finding a,b sample for current
 	try:
@@ -289,7 +287,7 @@ def MetropolisHastings(structures, seq):
 	current, t_current = combine(pairsA,pairsB)
 	# print(current)
 	# print(t_current)
-
+	
 	# energy_current = get_structure_energy(current)
 	energy_current = HotKnots(current)
 
@@ -307,8 +305,9 @@ def MetropolisHastings(structures, seq):
 	
 	print("beginning Burn in iterations")
 	while (count < burnin):
-		# if(count % (burnin/20)) == 0:
-		# 	print("working on iteration " + str(count))
+		if(count % (burnin/20)) == 0:
+			print("working on iteration " + str(count))
+			# print(BracketedStructureFromPairs(current, len(seq)))
 			
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
@@ -376,8 +375,9 @@ def MetropolisHastings(structures, seq):
 	for key in keys:
 		if (counts[key]/count) >= 0.5:
 			centroid.append(key)
-
-	print(centroid)
+	print("\nCentroid Structure")
+	print("Length:\n",len(centroid))
+	print("Pairs:\n",centroid)
 
 	# return current
 	return current, BracketedStructureFromPairs(current,len(seq))
@@ -388,8 +388,10 @@ def main():
 	parsed_sfold = parse_sfold_file(input_file)
 	current, dot_bracket = MetropolisHastings(parsed_sfold, seq)
 	# current = MetropolisHastings(parsed_sfold, seq)
-	print(current)
-	print(dot_bracket)
+	print("\nCurrent Structure")
+	print("Length:\n",len(current)/2)
+	print("Pairs:\n",current)
+	print("Dot Bracket:\n",dot_bracket)
 	return 0
 
 if __name__ == "__main__":

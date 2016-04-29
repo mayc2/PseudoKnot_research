@@ -4,7 +4,7 @@ usage() {
     echo "          *input_sequence_file(located in research parent directory) must be provided"
     echo "          *-r option re-runs sfold first"    
     exit 1; } 
-
+rerun=0
 OPTIND=1
 while getopts "rh" opts; do
     case "${opts}" in
@@ -12,7 +12,7 @@ while getopts "rh" opts; do
             usage
             ;;
         r) 
-            r=1
+            rerun=1
             ;;
         *) 
             usage
@@ -36,7 +36,7 @@ fi
 sequence=$RESEARCH/$1
 
 #run sfold
-if [ $r -eq 1 ]; then
+if [ $rerun -eq 1 ]; then
 echo "running sfold binary"
 $RESEARCH/sfold-2.2/bin/sfold $sequence
 if [ $? -ne 0 ]

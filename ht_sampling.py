@@ -445,10 +445,8 @@ def MetropolisHastings(structures, seq):
 		# T = 37.0
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
-		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T)))
-		temp2 =  (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		# print(Transition_current, Transition_proposal, energy_current, energy_proposal)
-		ans = temp/ temp2
+		ans = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T))) / (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		# print("temp: " + str(ans))
 		Probability = min(1.0, ans )
 		# print(Probability)

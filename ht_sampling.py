@@ -26,12 +26,12 @@ import os
 #	self.energy - Engergy calculated for the structure
 #	self.pairs - List of the indecies of the base pairs that form the structure.
 #		The list is not separated for each pair, however the matching bases
-#		appear next to eachother. Ex if the base pairs are (1, 4) and (2, 4)
+#		appear next to eachother ie. if the base pairs are (1, 4) and (2, 4)
 #		then the list is [1, 4, 2, 3].
 class Structure_SFold(object):
 
 	# ==========================================================================
-	# __init__ Constructor =====================================================
+	# __init__ Constructor returns object ======================================
 	#
 	# Constructs the objects from the parsed data that is recieved as a list of
 	#	arguments.
@@ -43,7 +43,7 @@ class Structure_SFold(object):
 		self.pairs = []
 
 	# ==========================================================================
-	# add_pair void ============================================================
+	# add_pair returns void ====================================================
 	#
 	# Adds a pair from the parsed SFold output to the structure. Used to build
 	#	the structure after the initial data is parsed.
@@ -58,7 +58,7 @@ class Structure_SFold(object):
 			y -= 1
 
 	# ==========================================================================
-	# __str__ String
+	# __str__ convert to string returns String =================================
 	#
 	# Converts the class into a string for printing.
 	def __str__(self):
@@ -67,8 +67,12 @@ class Structure_SFold(object):
 
 # ==============================================================================
 # ==============================================================================
-# ==============================================================================
 
+# ==============================================================================
+# get_file returns (File, File)
+#
+# Gets the tuple of files to be read as input. Throws an error if there aren't 3
+#	arguments (ht_sampling.py, <SFold_output>, <Sequence_file>) to the program.
 def get_file():
 	if len(sys.argv) != 3:
 		print("Incorrect number of arguments.")
@@ -78,7 +82,10 @@ def get_file():
 	return input_file, seq_file
 
 # ==============================================================================
-
+# parse_seq_file returns String
+#
+# Parses the contents of the sequence file and returns the contents of the
+#	sequence as a string.
 def parse_seq_file(seq_file):
 	file = open(seq_file)
 	data = file.read().splitlines()
@@ -89,7 +96,10 @@ def parse_seq_file(seq_file):
 	return seq
 
 # ==============================================================================
-
+# parse_sfold_file return List of Structure_SFold
+#
+# Parses the SFold output file, placing the data into a series of
+#	Structure_SFold objects.
 def parse_sfold_file(input_file):
 	file = open(input_file)
 	data = file.read().splitlines()
@@ -115,16 +125,21 @@ def parse_sfold_file(input_file):
 
 # ==============================================================================
 # MetropolisHastings
-# ==============================================================================
+#
+# Contains code for carrying out the Metropolis-Hastings algorithm and
+#	functions specific to it.
 def MetropolisHastings(structures, seq):
 
 	# ==========================================================================
-
-	#samples the structure set and recursively calls if duplicate found
+	# sample returns Structure_SFold
+	#
+	# Randomly picks a structure in the list given for sampling. If the
+	#	structure chosen is the same as the argument a, it randomly chooses
+	#	again, doing so until it has two different structures.
 	def sample(a, structures):
 		b = random.choice(structures)
 		if a == b:
-			sample(a,structures)
+			b = sample(a,structures)
 		return b
 
 	# ==========================================================================
@@ -355,8 +370,10 @@ def MetropolisHastings(structures, seq):
 				counts[(current[i],current[i+1])] = 1.0
 
 	# ==========================================================================
-	# Main code for Metropolis hastings?
 	# ==========================================================================
+	# Main code for the Metropolis-Hastings algorithm
+	#
+	# Carries out the operations outlined in the algorithm description.
 
 	#Step 1: finding a,b sample for current
 	try:
@@ -428,10 +445,8 @@ def MetropolisHastings(structures, seq):
 		# T = 37.0
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
-		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T)))
-		temp2 =  (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		# print(Transition_current, Transition_proposal, energy_current, energy_proposal)
-		ans = temp/ temp2
+		ans = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T))) / (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		# print("temp: " + str(ans))
 		Probability = min(1.0, ans )
 		# print(Probability)

@@ -131,12 +131,15 @@ def parse_sfold_file(input_file):
 def MetropolisHastings(structures, seq):
 
 	# ==========================================================================
-
-	#samples the structure set and recursively calls if duplicate found
+	# sample returns Structure_SFold
+	#
+	# Randomly picks a structure in the list given for sampling. If the
+	#	structure chosen is the same as the argument a, it randomly chooses
+	#	again, doing so until it has two different structures.
 	def sample(a, structures):
 		b = random.choice(structures)
 		if a == b:
-			sample(a,structures)
+			b = sample(a,structures)
 		return b
 
 	# ==========================================================================

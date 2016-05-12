@@ -1,10 +1,40 @@
+# ==============================================================================
+# ==============================================================================
+# ht_sampling.py ===============================================================
+#
+# Parses output from SFold. Then carries out the Metropolis-Hastings algorithm
+#	on the structures SFold calculated. Prepares output in the form of a
+#	dot-bracket sequence denoting the structures and pseudoknots.
+# ==============================================================================
+# ==============================================================================
+
 import math
 import sys
 import random
 import os
 
+# ==============================================================================
+# Structure_SFold class ========================================================
+# ==============================================================================
+#
+# A simple object that stores data for each structure parsed from the SFold
+#	output.
+#
+# Member variables:
+#	self.count - Structure number, a unique id
+#	self.boltzmann_weight - Boltzman weight calculated for the structure
+#	self.energy - Engergy calculated for the structure
+#	self.pairs - List of the indecies of the base pairs that form the structure.
+#		The list is not separated for each pair, however the matching bases
+#		appear next to eachother. Ex if the base pairs are (1, 4) and (2, 4)
+#		then the list is [1, 4, 2, 3].
 class Structure_SFold(object):
-	"""docstring for Structure_SFold"""
+
+	# ==========================================================================
+	# __init__ Constructor =====================================================
+	#
+	# Constructs the objects from the parsed data that is recieved as a list of
+	#	arguments.
 	def __init__(self, arg):
 		super(Structure_SFold, self).__init__()
 		self.count = int(arg[1])
@@ -12,18 +42,32 @@ class Structure_SFold(object):
 		self.energy = float(arg[2])
 		self.pairs = []
 
+	# ==========================================================================
+	# add_pair void ============================================================
+	#
+	# Adds a pair from the parsed SFold output to the structure. Used to build
+	#	the structure after the initial data is parsed.
 	def add_pair(self, arg):
 		super(Structure_SFold, self).__init__()
 		x = int(arg[0])-1
 		y = int(arg[1])-1
 		for n in range(int(arg[2])):
-			self.pairs.append(x) 
+			self.pairs.append(x)
 			self.pairs.append(y)
 			x += 1
 			y -= 1
 
+	# ==========================================================================
+	# __str__ String
+	#
+	# Converts the class into a string for printing.
 	def __str__(self):
-		return (str(self.count) + ": weight - " + str(self.boltzmann_weight) + ", energy - " + str(self.energy) + "\n" + str(self.pairs))
+		return (str(self.count) + ": weight - " + str(self.boltzmann_weight) + \
+			", energy - " + str(self.energy) + "\n" + str(self.pairs))
+
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
 
 def get_file():
 	if len(sys.argv) != 3:
@@ -32,6 +76,8 @@ def get_file():
 	input_file = sys.argv[1]
 	seq_file = sys.argv[2]
 	return input_file, seq_file
+
+# ==============================================================================
 
 def parse_seq_file(seq_file):
 	file = open(seq_file)
@@ -42,6 +88,7 @@ def parse_seq_file(seq_file):
 			seq += data[i]
 	return seq
 
+# ==============================================================================
 
 def parse_sfold_file(input_file):
 	file = open(input_file)
@@ -52,7 +99,7 @@ def parse_sfold_file(input_file):
 
 	#a list containing the structures
 	structures = []
-	
+
 	i = 3
 	current = -1
 	while i < len(data):
@@ -66,14 +113,21 @@ def parse_sfold_file(input_file):
 		i += 1
 	return structures
 
+# ==============================================================================
+# MetropolisHastings
+# ==============================================================================
 def MetropolisHastings(structures, seq):
-	
+
+	# ==========================================================================
+
 	#samples the structure set and recursively calls if duplicate found
 	def sample(a, structures):
 		b = random.choice(structures)
 		if a == b:
 			sample(a,structures)
-		return b 
+		return b
+
+	# ==========================================================================
 
 	def generate_dictionaries(a,b):
 		pairsA = {}
@@ -85,6 +139,8 @@ def MetropolisHastings(structures, seq):
 			pairsB[b.pairs[i]] = b.pairs[i+1]
 			pairsB[b.pairs[i+1]] = b.pairs[i]
 		return pairsA, pairsB
+
+	# ==========================================================================
 
 	#handles ties between pairs in the structures
 	def handle_ties(key,a,b,t):
@@ -103,6 +159,8 @@ def MetropolisHastings(structures, seq):
 				t = handle_ties(b[key],b,a,t)
 		return t
 
+	# ==========================================================================
+
 	def helper(a,b,t):
 		for key in a.keys():
 			if key in b:
@@ -110,6 +168,8 @@ def MetropolisHastings(structures, seq):
 				t = helper(a,b,t)
 				break
 		return t
+
+	# ==========================================================================
 
 	#recursively check if there are duplicates in the dictionaries of pairs
 	def remove_duplicates(a,b):
@@ -121,6 +181,8 @@ def MetropolisHastings(structures, seq):
 				break
 		return t
 
+	# ==========================================================================
+
 	def trim(a):
 		for key in a.keys():
 			if a[key] in a.keys():
@@ -130,6 +192,8 @@ def MetropolisHastings(structures, seq):
 					a.pop(key)
 				trim(a)
 				break
+
+	# ==========================================================================
 
 	def backtrack(a,b):
 		trim(a)
@@ -160,6 +224,8 @@ def MetropolisHastings(structures, seq):
 			j += 1
 		return answer
 
+	# ==========================================================================
+
 	def check(answer):
 		zest = set()
 		for item in answer:
@@ -168,12 +234,16 @@ def MetropolisHastings(structures, seq):
 			else:
 				zest.add(item)
 
+	# ==========================================================================
+
 	#combines structure a and structure b
 	def combine(a,b):
 		t = remove_duplicates(a,b)
 		answer = backtrack(a,b)
 		check(answer)
 		return answer, t
+
+	# ==========================================================================
 
 	def HotKnots(pairs):
 		dot_bracket = " \"" + BracketedStructureFromPairs(pairs, len(seq)) +"\""
@@ -190,9 +260,11 @@ def MetropolisHastings(structures, seq):
 		if line[1] == "the":
 			print("HotKnots failed")
 		free_energy = float(line[1])
-		free_energy_wo_dangling = float(line[2])			
+		free_energy_wo_dangling = float(line[2])
 		return  free_energy
-		
+
+	# ==========================================================================
+
 	#call nupack and return the resulting energy
 	def get_structure_energy(pairs):
 		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in > $RESEARCH/output_files/nupack_out.txt'
@@ -214,6 +286,8 @@ def MetropolisHastings(structures, seq):
 			# print("Nupack failed, establishing large energy value (10**8)")
 			return float(10**8)
 
+	# ==========================================================================
+
 	def generate_inFile(dot_bracket):
 		nupack_file = "input_files/nupack_in.in"
 		file = open(nupack_file, "w")
@@ -221,7 +295,9 @@ def MetropolisHastings(structures, seq):
 		file.write(dot_bracket)
 		file.close()
 		return 0
-		
+
+	# ==========================================================================
+
 	def BracketedStructureFromPairs(pairs,L):
 		struct = list('.'*L)
 		stack0 = []
@@ -235,7 +311,7 @@ def MetropolisHastings(structures, seq):
 			if current == 0:
 				for pair in stack0:
 					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
-                    	or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+						or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
 						stack1.append((pairs[i],pairs[i+1]))
 						# print(pairs[i],pairs[i+1])
 						current = 1
@@ -245,7 +321,7 @@ def MetropolisHastings(structures, seq):
 			if current == 1:
 				for pair in stack1:
 					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
-                    	or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+						or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
 						stack0.append((pairs[i],pairs[i+1]))
 						current = 0
 						break
@@ -259,20 +335,28 @@ def MetropolisHastings(structures, seq):
 			struct[pair[1]] = "]"
 		return ''.join(struct)
 
+	# ==========================================================================
+
 	def StructureFromPairs(pairs, L):
-	    struct = list('.' * L)
-	    for i in range(0, len(pairs), 2):
-	        struct[pairs[i]] = '('
-	        struct[pairs[i+1]] = ')'
-	        
-	    return ''.join(struct)
-	
+		struct = list('.' * L)
+		for i in range(0, len(pairs), 2):
+			struct[pairs[i]] = '('
+			struct[pairs[i+1]] = ')'
+
+		return ''.join(struct)
+
+	# ==========================================================================
+
 	def adjust_counts(current,counts):
 		for i in range(0,len(current),2):
 			if (current[i],current[i+1]) in counts:
 				counts[(current[i],current[i+1])] += 1.0
 			else:
 				counts[(current[i],current[i+1])] = 1.0
+
+	# ==========================================================================
+	# Main code for Metropolis hastings?
+	# ==========================================================================
 
 	#Step 1: finding a,b sample for current
 	try:
@@ -293,7 +377,7 @@ def MetropolisHastings(structures, seq):
 	current, t_current = combine(pairsA,pairsB)
 	# print(len(current))
 	# print(t_current)
-	
+
 	# energy_current = get_structure_energy(current)
 	energy_current = HotKnots(current)
 
@@ -303,12 +387,12 @@ def MetropolisHastings(structures, seq):
 	#Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
 	burnin = 1000
-	count = 0 
+	count = 0
 	exists = 0
-	
-	counts = {}	
+
+	counts = {}
 	acceptance_rate = 0.0
-	
+
 	print("beginning Burn in iterations")
 	R = float(13807E-23) * float(6.022E23)
 	T = float(275.928)
@@ -316,7 +400,7 @@ def MetropolisHastings(structures, seq):
 		if(count % (burnin/20)) == 0:
 			print("working on iteration " + str(count))
 			print(BracketedStructureFromPairs(current, len(seq)))
-			
+
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
 		try:
@@ -325,7 +409,7 @@ def MetropolisHastings(structures, seq):
 		except IndexError:
 			print("ERROR: Structures list is empty.")
 			return 1
-		
+
 		pairsI, pairsJ = generate_dictionaries(i,j)
 		proposal, t_proposal = combine(pairsI,pairsJ)
 
@@ -340,11 +424,11 @@ def MetropolisHastings(structures, seq):
 		Transition_current = a.boltzmann_weight * b.boltzmann_weight * 0.5**t_current
 		# print(Transition_proposal,Transition_current)
 		# print(Transition_proposal, Transition_current)
-		#Step 7: Compute Probability/Select whether to accept 
+		#Step 7: Compute Probability/Select whether to accept
 		# T = 37.0
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
-		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T))) 
+		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T)))
 		temp2 =  (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
 		# print(Transition_current, Transition_proposal, energy_current, energy_proposal)
 		ans = temp/ temp2
@@ -375,7 +459,7 @@ def MetropolisHastings(structures, seq):
 				pass
 		adjust_counts(current,counts)
 		count += 1
-	
+
 	centroid = []
 	keys = list(counts)
 	keys.sort()
@@ -397,6 +481,9 @@ def MetropolisHastings(structures, seq):
 	# return current
 	return current, BracketedStructureFromPairs(current,len(seq))
 
+# ==============================================================================
+# ==============================================================================
+
 def main():
 	input_file, seq_file = get_file()
 	seq = parse_seq_file(seq_file)
@@ -412,3 +499,7 @@ def main():
 
 if __name__ == "__main__":
 	sys.exit(main())
+
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================

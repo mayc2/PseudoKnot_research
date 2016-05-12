@@ -1,35 +1,34 @@
 import sys
 
 def parse_file():
-    c1_filename = "output/clusters/c01.ccentroid.bp"
-    c2_filename = "output/clusters/c02.ccentroid.bp"
+    filename = sys.argv[1]
+    file = open(filename,"r")
+    data = file.read().splitlines()
     
-    file1 = open(c1_filename,"r")
-    file2 = open(c2_filename, "r")
+    seq_file = sys.argv[2]
+    file2 = open(seq_file,"r")
+    data2 = file2.read().splitlines() 
     
-    data1 = file1.read().splitlines()
-    data2 = file2.read().splitlines()
-    
+    i = 1
+    sequence=""
+    while i < len(data2):
+         sequence += data2[i]
+         i += 1
     c1 = []
-    c2 = []
-    for i in range(len(data1)):
+
+    for i in range(len(data)):
         if i != 0:
-            temp = data1[i].split()
-            c1.append(int(temp[0]))
-            c1.append(int(temp[1]))
-    for i in range(len(data2)):
-        if i != 0:
-            temp = data2[i].split()
-            c2.append(int(temp[0]))
-            c2.append(int(temp[1]))
+            temp = data[i].split()
+            c1.append(int(temp[0])+1)
+            c1.append(int(temp[1])+1)
     
-    
-    return c1,c2
+    return c1, len(sequence), sequence
 
 def main():
-    c1, c2 = parse_file()
+    c1, L, sequence = parse_file()
+    print(L)
+    print(sequence)
     print(c1)
-    print(c2)
     return 0
 
 if __name__ == "__main__":

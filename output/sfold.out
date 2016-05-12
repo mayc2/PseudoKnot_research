@@ -2,41 +2,41 @@
 Sfold Executable Code for Academic Users, Version 2.2-20110126
   <Partition function and statistical sampling module>
 
- 1G
+ 1C
  2G
- 3G
- 4U
- 5U
- 6G
- 7C
+ 3A
+ 4C
+ 5C
+ 6U
+ 7G
  8G
- 9G
- 10A
- 442U
- 443C
- 444A
- 445C
- 446A
- 447C
- 448A
- 449U
- 450G
- 451C
+ 9U
+ 10G
+ 111U
+ 112G
+ 113C
+ 114C
+ 115A
+ 116G
+ 117G
+ 118U
+ 119C
+ 120U
  
- Random seed =  1214800
- Sequence length n =  451
+ Random seed =  123868
+ Sequence length n =  120
  Number of structures in a sample =  1000
  Reverse complement = F
  Length of antisense oligo =  20
- Maximum distance between paired bases =  450
+ Maximum distance between paired bases =  119
  Additional constraint file = none
  
- U0 =   2.34677
- scaled U(1,n) =   4.12705808E-09
- -RT ln(U(1,n))= -225.216449
+ U0 =   2.07635
+ scaled U(1,n) =   0.00325005183
+ -RT ln(U(1,n))= -50.5047392
  
- Time for PFs =   6.08828735
- Time for sampling =   9.87087917
- Time for PFs & sampling =   15.9591665
- Time for output & others =   2.42157674
- Total cpu time =   18.380743
+ Time for PFs =   0.129922003
+ Time for sampling =   1.42018533
+ Time for PFs & sampling =   1.55010736
+ Time for output & others =   0.663092852
+ Total cpu time =   2.21320009

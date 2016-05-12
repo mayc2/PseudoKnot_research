@@ -8,14 +8,19 @@ class Structure_SFold(object):
 	def __init__(self, arg):
 		super(Structure_SFold, self).__init__()
 		self.count = int(arg[1])
-		self.boltzmann_weight = float(arg[2])
-		self.energy = float(arg[3])
+		self.boltzmann_weight = float(arg[3])
+		self.energy = float(arg[2])
 		self.pairs = []
 
 	def add_pair(self, arg):
 		super(Structure_SFold, self).__init__()
-		self.pairs.append(int(arg[0])-1) 
-		self.pairs.append(int(arg[1])-1)
+		x = int(arg[0])-1
+		y = int(arg[1])-1
+		for n in range(int(arg[2])):
+			self.pairs.append(x) 
+			self.pairs.append(y)
+			x += 1
+			y -= 1
 
 	def __str__(self):
 		return (str(self.count) + ": weight - " + str(self.boltzmann_weight) + ", energy - " + str(self.energy) + "\n" + str(self.pairs))
@@ -232,6 +237,7 @@ def MetropolisHastings(structures, seq):
 					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
                     	or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
 						stack1.append((pairs[i],pairs[i+1]))
+						# print(pairs[i],pairs[i+1])
 						current = 1
 						break
 				if current == 0:
@@ -285,7 +291,7 @@ def MetropolisHastings(structures, seq):
 	#t_current = # of coin flips to break ties
 	pairsA, pairsB = generate_dictionaries(a,b)
 	current, t_current = combine(pairsA,pairsB)
-	# print(current)
+	# print(len(current))
 	# print(t_current)
 	
 	# energy_current = get_structure_energy(current)
@@ -304,10 +310,12 @@ def MetropolisHastings(structures, seq):
 	acceptance_rate = 0.0
 	
 	print("beginning Burn in iterations")
+	R = float(13807E-23) * float(6.022E23)
+	T = float(275.928)
 	while (count < burnin):
 		if(count % (burnin/20)) == 0:
 			print("working on iteration " + str(count))
-			# print(BracketedStructureFromPairs(current, len(seq)))
+			print(BracketedStructureFromPairs(current, len(seq)))
 			
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties
@@ -333,13 +341,12 @@ def MetropolisHastings(structures, seq):
 		# print(Transition_proposal,Transition_current)
 		# print(Transition_proposal, Transition_current)
 		#Step 7: Compute Probability/Select whether to accept 
-		R = float(13807E-23) * float(6.022E23)
 		# T = 37.0
-		T = float(275.928)
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
 		temp = (Transition_current * math.exp((-1.0 * energy_proposal)/(R * T))) 
 		temp2 =  (Transition_proposal * math.exp((-1.0* energy_current)/(R * T)))
+		# print(Transition_current, Transition_proposal, energy_current, energy_proposal)
 		ans = temp/ temp2
 		# print("temp: " + str(ans))
 		Probability = min(1.0, ans )
@@ -375,9 +382,17 @@ def MetropolisHastings(structures, seq):
 	for key in keys:
 		if (counts[key]/count) >= 0.5:
 			centroid.append(key)
+	answer = []
+	for pair in centroid:
+		answer.append(pair[0])
+		answer.append(pair[1])
 	print("\nCentroid Structure")
 	print("Length:\n",len(centroid))
 	print("Pairs:\n",centroid)
+	print("Pairs:\n",answer)
+	print("Dot Bracket:\n",BracketedStructureFromPairs(answer,len(seq)))
+
+	check(answer)
 
 	# return current
 	return current, BracketedStructureFromPairs(current,len(seq))
@@ -387,11 +402,12 @@ def main():
 	seq = parse_seq_file(seq_file)
 	parsed_sfold = parse_sfold_file(input_file)
 	current, dot_bracket = MetropolisHastings(parsed_sfold, seq)
+	print(len(seq))
 	# current = MetropolisHastings(parsed_sfold, seq)
-	print("\nCurrent Structure")
-	print("Length:\n",len(current)/2)
-	print("Pairs:\n",current)
-	print("Dot Bracket:\n",dot_bracket)
+	# print("\nCurrent Structure")
+	# print("Length:\n",len(current)/2)
+	# print("Pairs:\n",current)
+	# print("Dot Bracket:\n",dot_bracket)
 	return 0
 
 if __name__ == "__main__":

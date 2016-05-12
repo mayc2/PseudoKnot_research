@@ -33,7 +33,13 @@ then
 exit 1
 fi
 
+
 sequence=$RESEARCH/$1
+if [ -f $RESEARCH ]; then
+    :
+else
+    sequence=$1
+fi
 
 #run sfold
 if [ $rerun -eq 1 ]; then

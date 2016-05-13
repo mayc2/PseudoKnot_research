@@ -66,6 +66,7 @@ class Structure_SFold(object):
 			", energy - " + str(self.energy) + "\n" + str(self.pairs))
 
 # ==============================================================================
+# Functions for preparing data for Metropolis-Hastings =========================
 # ==============================================================================
 
 # ==============================================================================
@@ -124,14 +125,18 @@ def parse_sfold_file(input_file):
 	return structures
 
 # ==============================================================================
-# MetropolisHastings
+# MetropolisHastings(list(Structure_SFold), String)
 #
 # Contains code for carrying out the Metropolis-Hastings algorithm and
 #	functions specific to it.
 def MetropolisHastings(structures, seq):
 
 	# ==========================================================================
-	# sample returns Structure_SFold
+	# Functions specific to MetropolisHastings =================================
+	# ==========================================================================
+
+	# ==========================================================================
+	# sample(Structure_SFold, list(Structure_SFold)) returns Structure_SFold
 	#
 	# Randomly picks a structure in the list given for sampling. If the
 	#	structure chosen is the same as the argument a, it randomly chooses
@@ -143,7 +148,13 @@ def MetropolisHastings(structures, seq):
 		return b
 
 	# ==========================================================================
-
+	# generate_dictionaries(Structure_SFold, Structure_SFold)
+	#	returns (dict{int:int}, dict{int:int})
+	#
+	# Creates a dictionary for both of the structures that maps each base index
+	#	to the index of its matching base ie. if the parirs for a structure are
+	#	[1, 4, 2, 3] then the dictionary created is {1:4, 2:3, 3:2, 4:1}. This
+	#	is done for both structures passed as arguments.
 	def generate_dictionaries(a,b):
 		pairsA = {}
 		pairsB = {}
@@ -156,8 +167,13 @@ def MetropolisHastings(structures, seq):
 		return pairsA, pairsB
 
 	# ==========================================================================
-
-	#handles ties between pairs in the structures
+	# handle_ties(int, dict{int:int}, dict{int:int}, int) returns int
+	#
+	# Handles ties between pairs in the structures. This function is used
+	#	multiple times when combining structures. Flips a coin that determines
+	#	which dictionary (structure) to remove a pair of indecies from and
+	#	removes it. Increments t, the number of flips (a random choice of 0 or
+	#	1) needed to break ties and returns it.
 	def handle_ties(key,a,b,t):
 		t += 1
 		if random.randint(0,1) == 0:
@@ -175,7 +191,13 @@ def MetropolisHastings(structures, seq):
 		return t
 
 	# ==========================================================================
-
+	# helper(dict{int:int}, dict{int:int}, int) returns int
+	#
+	# Small helper function for removing duplicates when structures are
+	#	combined. Calls handle_ties on each pair of indecies that appears in
+	#	both structures, which randomly choses which structure to remove the
+	#	pair from. Returns t, the number of coin flips (a random choice of 0 or
+	#	1) needed to break ties.
 	def helper(a,b,t):
 		for key in a.keys():
 			if key in b:
@@ -185,8 +207,11 @@ def MetropolisHastings(structures, seq):
 		return t
 
 	# ==========================================================================
-
-	#recursively check if there are duplicates in the dictionaries of pairs
+	# remove_duplicates(dict{int:int}, dict{int:int}) returns int
+	#
+	# Checks if there are duplicates in the dictionaries of pairs Returns t, the
+	#	number of coin flips (a random choice of 0 or 1) needed to break ties.
+	#	Calls handle_ties and helper to perform this task.
 	def remove_duplicates(a,b):
 		t = 0
 		for key in a.keys():
@@ -197,7 +222,11 @@ def MetropolisHastings(structures, seq):
 		return t
 
 	# ==========================================================================
-
+	# trim(dict{int:int}) returns void
+	#
+	# Removes the key entries that are also values from the dictionary, so that
+	#	a pair only appears once in the set ie. if the dictionary is
+	#	{1:2 2:1 3:4 4:3} then it will be changed to {1:2 3:4}.
 	def trim(a):
 		for key in a.keys():
 			if a[key] in a.keys():
@@ -209,7 +238,13 @@ def MetropolisHastings(structures, seq):
 				break
 
 	# ==========================================================================
-
+	# backtrack(dict{int:int}, dict{int:int}) returns list(int)
+	#
+	# Combines two dictionaries into a list of the indecies, merging them into
+	#	an ordered list of pairs ie if the two dictionaries are {1:3 5:7} and
+	#	{2:4, 6:9} then the combined list will be [1, 3, 2, 4, 5, 7, 6, 9]. The
+	#	list follows the same format as the list of base pairs in the
+	#	Structure_SFold class.
 	def backtrack(a,b):
 		trim(a)
 		trim(b)
@@ -240,7 +275,10 @@ def MetropolisHastings(structures, seq):
 		return answer
 
 	# ==========================================================================
-
+	# check(list(int)) returns void
+	#
+	# Checks that each index in the list is unique, prints a warning if
+	#	duplicates are found.
 	def check(answer):
 		zest = set()
 		for item in answer:
@@ -250,8 +288,13 @@ def MetropolisHastings(structures, seq):
 				zest.add(item)
 
 	# ==========================================================================
-
-	#combines structure a and structure b
+	# combine(dict{int:int}, dict{int:int}) returns (list(int), int)
+	#
+	# Combines structure a and structure b. Removes the duplicate indecies in
+	#	each dictionary (structure) and then combines them into a single list
+	#	containing all of the pairs of the two structures. Returns a tuple of
+	#	the combined list and t, the number of coin flips (a random choice of 0
+	#	or 1) needed to break ties.
 	def combine(a,b):
 		t = remove_duplicates(a,b)
 		answer = backtrack(a,b)
@@ -262,7 +305,8 @@ def MetropolisHastings(structures, seq):
 
 	def HotKnots(pairs):
 		dot_bracket = " \"" + BracketedStructureFromPairs(pairs, len(seq)) +"\""
-		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + ' > $RESEARCH/output_files/hotknots_out.txt'
+		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + \
+			' > $RESEARCH/output_files/hotknots_out.txt'
 		relative_path = os.getcwd()
 		os.chdir(relative_path+"/HotKnots_v2.0/bin")
 		os.system(cmd)
@@ -282,7 +326,8 @@ def MetropolisHastings(structures, seq):
 
 	#call nupack and return the resulting energy
 	def get_structure_energy(pairs):
-		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in > $RESEARCH/output_files/nupack_out.txt'
+		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in \
+			> $RESEARCH/output_files/nupack_out.txt'
 		dot_bracket = StructureFromPairs(pairs,len(seq))
 		if generate_inFile(dot_bracket) != 0:
 			print("ERROR: Failed to generate nupack_in.in file")
@@ -372,10 +417,12 @@ def MetropolisHastings(structures, seq):
 	# ==========================================================================
 	# ==========================================================================
 	# Main code for the Metropolis-Hastings algorithm
+	# ==========================================================================
+	# ==========================================================================
 	#
 	# Carries out the operations outlined in the algorithm description.
 
-	#Step 1: finding a,b sample for current
+	# Step 1: finding a,b sample for current
 	try:
 		a = sample(None, structures)
 		b = sample(a,structures)
@@ -383,13 +430,8 @@ def MetropolisHastings(structures, seq):
 		print("ERROR: Structures list is empty.")
 		sys.exit(1)
 
-	# ###TESTS
-	# print (len(a.pairs), a)
-	# print("")
-	# print(len(b.pairs), b)
-
-	#Step 2: Combine a,b into a new structure, current
-	#t_current = # of coin flips to break ties
+	# Step 2: Combine a,b into a new structure, current
+	# t_current = # of coin flips to break ties
 	pairsA, pairsB = generate_dictionaries(a,b)
 	current, t_current = combine(pairsA,pairsB)
 	# print(len(current))
@@ -398,10 +440,10 @@ def MetropolisHastings(structures, seq):
 	# energy_current = get_structure_energy(current)
 	energy_current = HotKnots(current)
 
-	#Step 3: Set sample-list = {}
+	# Step 3: Set sample-list = {}
 	sample_list = {}
 
-	#Step 4: Define Burn-in rate to repeat steps 5-7
+	# Step 4: Define Burn-in rate to repeat steps 5-7
 	#follow with fixed sampling period
 	burnin = 1000
 	count = 0

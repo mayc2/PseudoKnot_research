@@ -378,8 +378,8 @@ def MetropolisHastings(structures, seq):
 	#	list. Indicates if the function constructing the dot-bracket format
 	#	should switch stacks.
 	def should_switch_stacks(pairs, i, pair):
-		return (pairs[i] < pair[0] and \
-					(pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
+		return (pairs[i] < pair[0] \
+					and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
 			or ((pairs[i] > pair[0] and pairs[i] < pair[1]) \
 					and pairs[i+1] > pair[1])
 

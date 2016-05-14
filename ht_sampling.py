@@ -302,7 +302,14 @@ def MetropolisHastings(structures, seq):
 		return answer, t
 
 	# ==========================================================================
-
+	# HotKnots(list(pairs)) returns float
+	#
+	# Calls HotKnots on the data given by the function. Structure comes in as a
+	#	as a list of paired indecies. A dot-bracket representation of the
+	#	structure is created and is sent to HotKnots along with the ASCII
+	#	representation of the sequence. HotKnots is outputs energy calculations
+	#	for the structure. The output of HotKnots is read and the free energy
+	#	for the structure is returned.
 	def HotKnots(pairs):
 		dot_bracket = " \"" + BracketedStructureFromPairs(pairs, len(seq)) +"\""
 		cmd = '$HOTKNOTS/bin/computeEnergy -s ' + seq + dot_bracket + \
@@ -323,8 +330,13 @@ def MetropolisHastings(structures, seq):
 		return  free_energy
 
 	# ==========================================================================
-
-	#call nupack and return the resulting energy
+	# get_structure_energy(pairs) returns float
+	#
+	# Calls Nupack and return the resulting energy calculation. Structure comes
+	#	in as a as a list of paired indecies. A dot-bracket representation of
+	#	the structure is created and is put in an input file for Nupack. Nupac
+	#	is run with the input file and the output from Nupack is read in,
+	#	parsed, and the energy calculation is returned.
 	def get_structure_energy(pairs):
 		cmd = '$NUPACKHOME/bin/energy -pseudo $RESEARCH/input_files/nupack_in \
 			> $RESEARCH/output_files/nupack_out.txt'
@@ -347,7 +359,10 @@ def MetropolisHastings(structures, seq):
 			return float(10**8)
 
 	# ==========================================================================
-
+	# generate_inFile(String) returns int
+	#
+	# Writes the dot-bracket structure to the input file for Nupack. Returns 0
+	#	if successful.
 	def generate_inFile(dot_bracket):
 		nupack_file = "input_files/nupack_in.in"
 		file = open(nupack_file, "w")
@@ -357,7 +372,14 @@ def MetropolisHastings(structures, seq):
 		return 0
 
 	# ==========================================================================
-
+	# BracketedStructureFromPairs(list(int), int) returns String
+	#
+	# Creates the dot-bracket formatted representation of the combined
+	#	structure. Takes the list of base pairs and their length and adds them
+	#	to one of two lists (stack0 and stack1). It places pairs into stack0
+	#	until it finds a pair that crosses a pair in stack0 then starts adding
+	#	to stack1, switching back to stack0 when a pair crosses again. This
+	#	method is followed until all of the pairs are added to the stacks.
 	def BracketedStructureFromPairs(pairs,L):
 		struct = list('.'*L)
 		stack0 = []
@@ -396,7 +418,9 @@ def MetropolisHastings(structures, seq):
 		return ''.join(struct)
 
 	# ==========================================================================
-
+	# StructureFromPairs(list(int), int) returns String
+	#
+	# Makes the dot and parenthesis format for visualizing structures
 	def StructureFromPairs(pairs, L):
 		struct = list('.' * L)
 		for i in range(0, len(pairs), 2):
@@ -406,7 +430,9 @@ def MetropolisHastings(structures, seq):
 		return ''.join(struct)
 
 	# ==========================================================================
-
+	# adjust_counts(list(int), dict{int:float}) returns void
+	#
+	# Keeps track of the appearances of pairs in the structure
 	def adjust_counts(current,counts):
 		for i in range(0,len(current),2):
 			if (current[i],current[i+1]) in counts:
@@ -420,9 +446,13 @@ def MetropolisHastings(structures, seq):
 	# ==========================================================================
 	# ==========================================================================
 	#
-	# Carries out the operations outlined in the algorithm description.
+	# Carries out the operations outlined in the algorithm description in a
+	#	a series of steps.
 
-	# Step 1: finding a,b sample for current
+	# ==========================================================================
+	# Step 1 ===================================================================
+	#
+	# Finding a,b sample for current
 	try:
 		a = sample(None, structures)
 		b = sample(a,structures)
@@ -430,21 +460,31 @@ def MetropolisHastings(structures, seq):
 		print("ERROR: Structures list is empty.")
 		sys.exit(1)
 
-	# Step 2: Combine a,b into a new structure, current
-	# t_current = # of coin flips to break ties
+	# ==========================================================================
+	# Step 2 ===================================================================
+	#
+	# Combine a,b into a new structure, current
+	# t_current = number of coin flips to break ties
 	pairsA, pairsB = generate_dictionaries(a,b)
 	current, t_current = combine(pairsA,pairsB)
+
 	# print(len(current))
 	# print(t_current)
 
 	# energy_current = get_structure_energy(current)
 	energy_current = HotKnots(current)
 
-	# Step 3: Set sample-list = {}
+	# ==========================================================================
+	# Step 3 ===================================================================
+	#
+	# Set sample-list = {}
 	sample_list = {}
 
-	# Step 4: Define Burn-in rate to repeat steps 5-7
-	#follow with fixed sampling period
+	# ==========================================================================
+	# Step 4 ===================================================================
+	#
+	# Define Burn-in rate to repeat steps 5-7
+	# Follow with fixed sampling period
 	burnin = 1000
 	count = 0
 	exists = 0
@@ -460,8 +500,11 @@ def MetropolisHastings(structures, seq):
 			print("working on iteration " + str(count))
 			print(BracketedStructureFromPairs(current, len(seq)))
 
-		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
-		#t_proposal = # of coins flips required to break ties
+		# ======================================================================
+		# Step 5 ===============================================================
+		#
+		# Sample/combine new pair (i, j) into a new structure, proposal
+		# t_proposal = # of coins flips required to break ties
 		try:
 			i = sample(None, structures)
 			j = sample(i, structures)
@@ -475,15 +518,23 @@ def MetropolisHastings(structures, seq):
 		#TO-DO HotKnots Implementation
 		energy_proposal = HotKnots(proposal)
 		# print("CHECKING FOR DUPLICATES: " + str(len(proposal) == len(set(proposal))) )
-		#Step 6: Calculate Transition Functions
-		#T(proposal|current) = T(proposal) = P(S_i)*P(S_j)*(0.5)**t_proposal
-		#T(current|proposal) = T(current) = P(S_a)*P(S_b)*(0.5)**t_current
+
+		# ======================================================================
+		# Step 6: ==============================================================
+		#
+		# Calculate Transition Functions
+		# T(proposal|current) = T(proposal) = P(S_i)*P(S_j)*(0.5)**t_proposal
+		# T(current|proposal) = T(current) = P(S_a)*P(S_b)*(0.5)**t_current
 
 		Transition_proposal = i.boltzmann_weight * j.boltzmann_weight * 0.5**t_proposal
 		Transition_current = a.boltzmann_weight * b.boltzmann_weight * 0.5**t_current
 		# print(Transition_proposal,Transition_current)
 		# print(Transition_proposal, Transition_current)
-		#Step 7: Compute Probability/Select whether to accept
+
+		# ======================================================================
+		# Step 7 ===============================================================
+		#
+		# Compute Probability/Select whether to accept
 		# T = 37.0
 
 		# print("energies:" , str(energy_proposal),str(energy_current))
@@ -539,6 +590,7 @@ def MetropolisHastings(structures, seq):
 	return current, BracketedStructureFromPairs(current,len(seq))
 
 # ==============================================================================
+# End of Metropolis-Hastings
 # ==============================================================================
 
 def main():

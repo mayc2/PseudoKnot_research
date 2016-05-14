@@ -372,6 +372,18 @@ def MetropolisHastings(structures, seq):
 		return 0
 
 	# ==========================================================================
+	# should_switch_stacks(list(int), int, (int, int)) returns boolean
+	#
+	# Returns True if the pair crosses over a pair of indecies in the pairs
+	#	list. Indicates if the function constructing the dot-bracket format
+	#	should switch stacks.
+	def should_switch_stacks(pairs, i, pair):
+		return (pairs[i] < pair[0] and \
+					(pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
+			or ((pairs[i] > pair[0] and pairs[i] < pair[1]) \
+					and pairs[i+1] > pair[1])
+
+	# ==========================================================================
 	# BracketedStructureFromPairs(list(int), int) returns String
 	#
 	# Creates the dot-bracket formatted representation of the combined
@@ -392,8 +404,7 @@ def MetropolisHastings(structures, seq):
 		for i in range(0,len(pairs), 2):
 			if current == 0:
 				for pair in stack0:
-					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
-						or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+					if should_switch_stacks(pairs, i, pair):
 						stack1.append((pairs[i],pairs[i+1]))
 						# print(pairs[i],pairs[i+1])
 						current = 1
@@ -402,8 +413,7 @@ def MetropolisHastings(structures, seq):
 					stack0.append((pairs[i],pairs[i+1]))
 			if current == 1:
 				for pair in stack1:
-					if (pairs[i] < pair[0] and (pairs[i+1] > pair[0] and pairs[i+1] < pair[1])) \
-						or ((pairs[i] > pair[0] and pairs[i] < pair[1]) and pairs[i+1] > pair[1]):
+					if should_switch_stacks(pairs, i, pair):
 						stack0.append((pairs[i],pairs[i+1]))
 						current = 0
 						break

@@ -12,8 +12,17 @@ Process completed. See output files in '/home/chris/devtree/pseudoKnot_research/
 
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.........((((.((......).).))))
+
+Centroid Structure
+Length:
+ 7
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 25), (13, 24), (15, 22), (17, 21)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 25, 13, 24, 15, 22, 17, 21]
+Dot Bracket:
+ .........(((((.(.(...)).)).)))
+30
 
 
 Iteration 1
@@ -22,8 +31,17 @@ Iteration 1
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.........((((.............))))
+
+Centroid Structure
+Length:
+ 6
+Pairs:
+ [(6, 15), (9, 29), (11, 27), (12, 26), (14, 24), (23, 28)]
+Pairs:
+ [6, 15, 9, 29, 11, 27, 12, 26, 14, 24, 23, 28]
+Dot Bracket:
+ ......(..[.[[.[).......(].]])]
+30
 
 
 Iteration 2
@@ -32,10 +50,17 @@ Iteration 2
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.........((((.((......).)).)))
-working on iteration 50
-.........(((((..........).))))
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26]
+Dot Bracket:
+ .........((((.............))))
+30
 
 
 Iteration 3
@@ -44,8 +69,17 @@ Iteration 3
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.........((((.............))))
+
+Centroid Structure
+Length:
+ 3
+Pairs:
+ [(9, 29), (10, 28), (11, 27)]
+Pairs:
+ [9, 29, 10, 28, 11, 27]
+Dot Bracket:
+ .........(((...............)))
+30
 
 
 Iteration 4
@@ -54,5 +88,299 @@ Iteration 4
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.........(((((..........).))))
+
+Centroid Structure
+Length:
+ 2
+Pairs:
+ [(10, 28), (11, 27)]
+Pairs:
+ [10, 28, 11, 27]
+Dot Bracket:
+ ..........((...............)).
+30
+
+
+Iteration 5
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 6
+Pairs:
+ [(3, 16), (9, 29), (10, 28), (11, 27), (12, 26), (17, 24)]
+Pairs:
+ [3, 16, 9, 29, 10, 28, 11, 27, 12, 26, 17, 24]
+Dot Bracket:
+ ...(.....[[[[...)[......].]]]]
+30
+
+
+Iteration 6
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 3
+Pairs:
+ [(9, 29), (10, 28), (11, 27)]
+Pairs:
+ [9, 29, 10, 28, 11, 27]
+Dot Bracket:
+ .........(((...............)))
+30
+
+
+Iteration 7
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26]
+Dot Bracket:
+ .........((((.............))))
+30
+
+
+Iteration 8
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 5
+Pairs:
+ [(0, 17), (2, 15), (3, 16), (22, 29), (23, 28)]
+Pairs:
+ [0, 17, 2, 15, 3, 16, 22, 29, 23, 28]
+Dot Bracket:
+ (.([...........)])....[[....]]
+30
+
+
+Iteration 9
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 5
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26), (15, 22)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26, 15, 22]
+Dot Bracket:
+ .........((((..(......)...))))
+30
+
+
+Iteration 10
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26]
+Dot Bracket:
+ .........((((.............))))
+30
+
+
+Iteration 11
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26]
+Dot Bracket:
+ .........((((.............))))
+30
+
+
+Iteration 12
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (13, 28), (14, 27), (16, 24)]
+Pairs:
+ [9, 29, 13, 28, 14, 27, 16, 24]
+Dot Bracket:
+ .........(...((.(.......)..)))
+30
+
+
+Iteration 13
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 2
+Pairs:
+ [(9, 29), (11, 27)]
+Pairs:
+ [9, 29, 11, 27]
+Dot Bracket:
+ .........(.(...............).)
+30
+
+
+Iteration 14
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 6
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 25), (15, 22), (16, 24)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 25, 15, 22, 16, 24]
+Dot Bracket:
+ .........((((..([.....).]).)))
+30
+
+
+Iteration 15
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (12, 26)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 12, 26]
+Dot Bracket:
+ .........((((.............))))
+30
+
+
+Iteration 16
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(0, 12), (9, 29), (10, 28), (11, 27)]
+Pairs:
+ [0, 12, 9, 29, 10, 28, 11, 27]
+Dot Bracket:
+ (........[[[)..............]]]
+30
+
+
+Iteration 17
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(9, 29), (10, 28), (11, 27), (14, 24)]
+Pairs:
+ [9, 29, 10, 28, 11, 27, 14, 24]
+Dot Bracket:
+ .........(((..(.........)..)))
+30
+
+
+Iteration 18
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 3
+Pairs:
+ [(9, 29), (10, 28), (11, 27)]
+Pairs:
+ [9, 29, 10, 28, 11, 27]
+Dot Bracket:
+ .........(((...............)))
+30
+
+
+Iteration 19
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 3
+Pairs:
+ [(9, 29), (10, 28), (11, 27)]
+Pairs:
+ [9, 29, 10, 28, 11, 27]
+Dot Bracket:
+ .........(((...............)))
+30

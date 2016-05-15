@@ -5,7 +5,7 @@
 OUTPUTDIR=$RESEARCH/output_files
 INPUTDIR=$RESEARCH/input_files
 
-sampling_num=5
+sampling_num=20
 
 for d in $INPUTDIR/*.fa; do
     temp=0

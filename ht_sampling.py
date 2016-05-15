@@ -414,9 +414,9 @@ def MetropolisHastings(structures, seq):
 	R = float(13807E-23) * float(6.022E23)
 	T = float(275.928)
 	while (count < burnin):
-		if(count % (burnin/20)) == 0:
-			print("working on iteration " + str(count))
-			print(BracketedStructureFromPairs(current, len(seq)))
+		# if(count % (burnin/20)) == 0:
+			# print("working on iteration " + str(count))
+			# print(BracketedStructureFromPairs(current, len(seq)))
 
 		#Step 5: Sample/combine new pair (i, j) into a new structure, proposal
 		#t_proposal = # of coins flips required to break ties

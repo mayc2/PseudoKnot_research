@@ -1,301 +1,97 @@
 Iteration 0
 
-setting environment up
-running sfold binary
-
-Sfold Executable Code for Academic Users, Version 2.2-20110126
- Running partition function and statistical sampling module... done
- (general output in /home/chris/devtree/pseudoKnot_research/output/sfold.out)
- Running structure clustering module... done
- (general output in /home/chris/devtree/pseudoKnot_research/output/sclass.out)
-Process completed. See output files in '/home/chris/devtree/pseudoKnot_research/output'.
-
-running sampling algorithm
-beginning Burn in iterations
-working on iteration 0
-....(((((((...)).)))))
-working on iteration 50
-....((((((......))))))
-working on iteration 100
-....((((((......))))))
-working on iteration 150
-....((((((......))))))
-working on iteration 200
-....((((((......))))))
-working on iteration 250
-....((((((......))))))
-working on iteration 300
-....((((((......))))))
-working on iteration 350
-....((((((......))))))
-working on iteration 400
-....((((((......))))))
-working on iteration 450
-....((((((......))))))
-working on iteration 500
-....((((((......))))))
-working on iteration 550
-....((((((......))))))
-working on iteration 600
-....((((((......))))))
-working on iteration 650
-....((((((......))))))
-working on iteration 700
-....((((((......))))))
-working on iteration 750
-....((((((......))))))
-working on iteration 800
-....((((((......))))))
-working on iteration 850
-....((((((......))))))
-working on iteration 900
-....((((((......))))))
-working on iteration 950
-....((((((......))))))
-
-Centroid Structure
-Length:
- 6
-Pairs:
- [(4, 21), (5, 20), (6, 19), (7, 18), (8, 17), (9, 16)]
-Pairs:
- [4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16]
-Dot Bracket:
- ....((((((......))))))
-22
 
 
 Iteration 1
 
 
-setting environment up
-running sampling algorithm
-beginning Burn in iterations
-working on iteration 0
-....((((((......))))))
-working on iteration 50
-....((((((......))))))
-working on iteration 100
-....((((((.....).)))))
-working on iteration 150
-....((((((......))))))
-working on iteration 200
-....((((((......))))))
-working on iteration 250
-....((((((......))))))
-working on iteration 300
-....((((((......))))))
-working on iteration 350
-....((((((......))))))
-working on iteration 400
-....(((((((...).))))))
-working on iteration 450
-....((((((......))))))
-working on iteration 500
-....((((((......))))))
-working on iteration 550
-....((((((......))))))
-working on iteration 600
-....((((((......))))))
-working on iteration 650
-....((((((......))))))
-working on iteration 700
-....((((((......))))))
-working on iteration 750
-....((((((......))))))
-working on iteration 800
-....((((((......))))))
-working on iteration 850
-....((((((......))))))
-working on iteration 900
-....((((((......))))))
-working on iteration 950
-....((((((......))))))
-
-Centroid Structure
-Length:
- 6
-Pairs:
- [(4, 21), (5, 20), (6, 19), (7, 18), (8, 17), (9, 16)]
-Pairs:
- [4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16]
-Dot Bracket:
- ....((((((......))))))
-22
 
 
 Iteration 2
 
 
-setting environment up
-running sampling algorithm
-beginning Burn in iterations
-working on iteration 0
-....((((((......))))))
-working on iteration 50
-....((((((......))))))
-working on iteration 100
-....((((((......))))))
-working on iteration 150
-....((((((......))))))
-working on iteration 200
-....((((((.....).)))))
-working on iteration 250
-....((((((......))))))
-working on iteration 300
-....((((((......))))))
-working on iteration 350
-....((((((......))))))
-working on iteration 400
-....((((((......))))))
-working on iteration 450
-....((((((......))))))
-working on iteration 500
-....((((((......))))))
-working on iteration 550
-....((((((......))))))
-working on iteration 600
-....((((((......))))))
-working on iteration 650
-....(((((((...)).)))))
-working on iteration 700
-....((((((......))))))
-working on iteration 750
-....((((((......))))))
-working on iteration 800
-....((((((......))))))
-working on iteration 850
-....((((((......))))))
-working on iteration 900
-....((((((......))))))
-working on iteration 950
-....((((((......))))))
-
-Centroid Structure
-Length:
- 6
-Pairs:
- [(4, 21), (5, 20), (6, 19), (7, 18), (8, 17), (9, 16)]
-Pairs:
- [4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16]
-Dot Bracket:
- ....((((((......))))))
-22
 
 
 Iteration 3
 
 
-setting environment up
-running sampling algorithm
-beginning Burn in iterations
-working on iteration 0
-....((((((......))))))
-working on iteration 50
-....((((((......))))))
-working on iteration 100
-....((((((......))))))
-working on iteration 150
-....((((((......))))))
-working on iteration 200
-.....(((((......))))).
-working on iteration 250
-....((((((......))))))
-working on iteration 300
-....((((((......))))))
-working on iteration 350
-....((((((......))))))
-working on iteration 400
-....((((((......))))))
-working on iteration 450
-....((((((......))))))
-working on iteration 500
-....((((((......))))))
-working on iteration 550
-....((((((......))))))
-working on iteration 600
-....((((((......))))))
-working on iteration 650
-....((((((......))))))
-working on iteration 700
-....((((((......))))))
-working on iteration 750
-....((((((......))))))
-working on iteration 800
-....((((((......))))))
-working on iteration 850
-....((((((......))))))
-working on iteration 900
-....((((((......))))))
-working on iteration 950
-....((((((......))))))
-
-Centroid Structure
-Length:
- 6
-Pairs:
- [(4, 21), (5, 20), (6, 19), (7, 18), (8, 17), (9, 16)]
-Pairs:
- [4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16]
-Dot Bracket:
- ....((((((......))))))
-22
 
 
 Iteration 4
 
 
-setting environment up
-running sampling algorithm
-beginning Burn in iterations
-working on iteration 0
-....((((((......))))))
-working on iteration 50
-....(((((((...).))))))
-working on iteration 100
-....((((((......))))))
-working on iteration 150
-....((((((......))))))
-working on iteration 200
-....((((((......))))))
-working on iteration 250
-....((((((......))))))
-working on iteration 300
-....((((((......))))))
-working on iteration 350
-....((((((......))))))
-working on iteration 400
-....((((((......))))))
-working on iteration 450
-....((((((......))))))
-working on iteration 500
-....((((((......))))))
-working on iteration 550
-....((((((......))))))
-working on iteration 600
-....((((((......))))))
-working on iteration 650
-....((((((......))))))
-working on iteration 700
-....((((((......))))))
-working on iteration 750
-....((((((......))))))
-working on iteration 800
-....((((((......))))))
-working on iteration 850
-....((((((......))))))
-working on iteration 900
-....((((((......))))))
-working on iteration 950
-....((((((......))))))
 
-Centroid Structure
-Length:
- 6
-Pairs:
- [(4, 21), (5, 20), (6, 19), (7, 18), (8, 17), (9, 16)]
-Pairs:
- [4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16]
-Dot Bracket:
- ....((((((......))))))
-22
+
+Iteration 5
+
+
+
+
+Iteration 6
+
+
+
+
+Iteration 7
+
+
+
+
+Iteration 8
+
+
+
+
+Iteration 9
+
+
+
+
+Iteration 10
+
+
+
+
+Iteration 11
+
+
+
+
+Iteration 12
+
+
+
+
+Iteration 13
+
+
+
+
+Iteration 14
+
+
+
+
+Iteration 15
+
+
+
+
+Iteration 16
+
+
+
+
+Iteration 17
+
+
+
+
+Iteration 18
+
+
+
+
+Iteration 19
+
+

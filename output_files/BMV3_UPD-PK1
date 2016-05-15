@@ -12,56 +12,16 @@ Process completed. See output files in '/home/chris/devtree/pseudoKnot_research/
 
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.(((((......))))).........
-working on iteration 50
-.(((((......))))).........
-working on iteration 100
-.(((((......))))).........
-working on iteration 150
-..((((......))))..........
-working on iteration 200
-.(((((......))))).........
-working on iteration 250
-.(((((......))))).........
-working on iteration 300
-.(((((......))))).........
-working on iteration 350
-(.((((......))))).........
-working on iteration 400
-..((.((.....))).).........
-working on iteration 450
-((((((......))))).....)...
-working on iteration 500
-.(.(((......))))..........
-working on iteration 550
-..((((......))))..........
-working on iteration 600
-.(..(.(.....).))..........
-working on iteration 650
-.......(((((.......)))))..
-working on iteration 700
-..(((.(.....))))..........
-working on iteration 750
-.(((((......))))).........
-working on iteration 800
-.(((((.[[[[[)))))..]]]]]..
-working on iteration 850
-.(((((......))))).........
-working on iteration 900
-.((((.(.....))))).........
-working on iteration 950
-.(((((......))))).........
 
 Centroid Structure
 Length:
- 5
+ 4
 Pairs:
- [(1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+ [(2, 15), (3, 14), (5, 13), (6, 12)]
 Pairs:
- [1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+ [2, 15, 3, 14, 5, 13, 6, 12]
 Dot Bracket:
- .(((((......))))).........
+ ..((.((.....))))..........
 26
 
 
@@ -71,56 +31,16 @@ Iteration 1
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.......(((((.......)))))..
-working on iteration 50
-.(((((......))))).........
-working on iteration 100
-.(((((......))))).........
-working on iteration 150
-.(((((......))))).........
-working on iteration 200
-.(((((......))))).........
-working on iteration 250
-..((((......))))..........
-working on iteration 300
-.(((((......))))).........
-working on iteration 350
-(((((.(.....))))).....)...
-working on iteration 400
-.((.(.(.....).))).........
-working on iteration 450
-.......(((((.......)))))..
-working on iteration 500
-.(((((......))))).........
-working on iteration 550
-((((((......)))).....))...
-working on iteration 600
-..((((......))))..........
-working on iteration 650
-..((((......))))..........
-working on iteration 700
-.......(((((.......)))))..
-working on iteration 750
-.(((((......))))).........
-working on iteration 800
-.(((((......))))).........
-working on iteration 850
-.(((((......))))).........
-working on iteration 900
-.(((((......))))).........
-working on iteration 950
-.(((((......))))).........
 
 Centroid Structure
 Length:
  5
 Pairs:
- [(1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+ [(0, 22), (2, 15), (3, 14), (4, 13), (5, 12)]
 Pairs:
- [1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+ [0, 22, 2, 15, 3, 14, 4, 13, 5, 12]
 Dot Bracket:
- .(((((......))))).........
+ (.((((......))))......)...
 26
 
 
@@ -130,56 +50,16 @@ Iteration 2
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.(((((......))))).........
-working on iteration 50
-.(((((......))))).........
-working on iteration 100
-.(((.((.....))))).........
-working on iteration 150
-.(((((......))))).........
-working on iteration 200
-.(((((......))))).........
-working on iteration 250
-.(((((......))))).........
-working on iteration 300
-.(((((......))))).........
-working on iteration 350
-.(((((......))))).........
-working on iteration 400
-.((((.(.....))))).........
-working on iteration 450
-.(((((......))))).........
-working on iteration 500
-((((((......))))).....)...
-working on iteration 550
-.((.(.(.....).))).........
-working on iteration 600
-.(((((......))))).........
-working on iteration 650
-..((((......))))..........
-working on iteration 700
-(((((........))).....))...
-working on iteration 750
-..((((......))))..........
-working on iteration 800
-..(..((.....)).......)....
-working on iteration 850
-.(((((......))))).........
-working on iteration 900
-.(((((......))))).........
-working on iteration 950
-.(((((......))))).........
 
 Centroid Structure
 Length:
  5
 Pairs:
- [(1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+ [(0, 16), (1, 21), (2, 15), (3, 14), (6, 13)]
 Pairs:
- [1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+ [0, 16, 1, 21, 2, 15, 3, 14, 6, 13]
 Dot Bracket:
- .(((((......))))).........
+ ([[[..[......]]])....]....
 26
 
 
@@ -189,56 +69,16 @@ Iteration 3
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.(((((......))))).........
-working on iteration 50
-.......(((((.......)))))..
-working on iteration 100
-.(((((......))))).........
-working on iteration 150
-.((((........)))).........
-working on iteration 200
-.((((........)))).........
-working on iteration 250
-..(((.(.....))))..........
-working on iteration 300
-.(((((......))))).........
-working on iteration 350
-.(((((......))))).........
-working on iteration 400
-..((((......))))..........
-working on iteration 450
-.(((((......))))).........
-working on iteration 500
-.(((.((.....))))).........
-working on iteration 550
-.(((((......))))).........
-working on iteration 600
-.(((((......))))).........
-working on iteration 650
-((((((......)))).....))...
-working on iteration 700
-.(((((......))))).........
-working on iteration 750
-((((.(......).)).....))...
-working on iteration 800
-..((.((.....))))..........
-working on iteration 850
-.......(((((.......)))))..
-working on iteration 900
-.((((.(.....))))).........
-working on iteration 950
-.(((((......))))).........
 
 Centroid Structure
 Length:
- 5
+ 6
 Pairs:
- [(1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+ [(0, 22), (1, 21), (2, 15), (3, 14), (4, 13), (5, 12)]
 Pairs:
- [1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+ [0, 22, 1, 21, 2, 15, 3, 14, 4, 13, 5, 12]
 Dot Bracket:
- .(((((......))))).........
+ ((((((......)))).....))...
 26
 
 
@@ -248,54 +88,299 @@ Iteration 4
 setting environment up
 running sampling algorithm
 beginning Burn in iterations
-working on iteration 0
-.(((((......))))).........
-working on iteration 50
-.(((((......))))).........
-working on iteration 100
-.(.(.((.....))))..........
-working on iteration 150
-.......(((((.......)))))..
-working on iteration 200
-.(((.((.....))))).........
-working on iteration 250
-..((((......))))..........
-working on iteration 300
-.(((((......))))).........
-working on iteration 350
-.(((((......))))).........
-working on iteration 400
-.(((((......))))).........
-working on iteration 450
-.(((((......))))).........
-working on iteration 500
-.(((((......))))).........
-working on iteration 550
-.(((((......))))).........
-working on iteration 600
-..(.(((.....)))......)....
-working on iteration 650
-.(((((......))))).........
-working on iteration 700
-.......(((((.......)))))..
-working on iteration 750
-.((.((......).))).........
-working on iteration 800
-.(((((......))))).........
-working on iteration 850
-....(((.....)))...........
-working on iteration 900
-.(((((......))))).........
-working on iteration 950
-.(((((......))))).........
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 5
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(0, 22), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [0, 22, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ (..(((......))).......)...
+26
+
+
+Iteration 6
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(0, 22), (2, 15), (3, 14), (5, 12)]
+Pairs:
+ [0, 22, 2, 15, 3, 14, 5, 12]
+Dot Bracket:
+ (.((.(......).))......)...
+26
+
+
+Iteration 7
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(0, 22), (2, 15), (3, 14), (4, 13)]
+Pairs:
+ [0, 22, 2, 15, 3, 14, 4, 13]
+Dot Bracket:
+ (.(((........)))......)...
+26
+
+
+Iteration 8
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
 
 Centroid Structure
 Length:
  5
 Pairs:
- [(1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+ [(0, 22), (2, 15), (3, 14), (4, 13), (5, 12)]
 Pairs:
- [1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+ [0, 22, 2, 15, 3, 14, 4, 13, 5, 12]
 Dot Bracket:
- .(((((......))))).........
+ (.((((......))))......)...
+26
+
+
+Iteration 9
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 10
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 11
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 12
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 5
+Pairs:
+ [(0, 21), (2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [0, 21, 2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ (.((((......)))).....)....
+26
+
+
+Iteration 13
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 14
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 5
+Pairs:
+ [(0, 21), (2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [0, 21, 2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ (.((((......)))).....)....
+26
+
+
+Iteration 15
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 3
+Pairs:
+ [(2, 15), (3, 14), (6, 12)]
+Pairs:
+ [2, 15, 3, 14, 6, 12]
+Dot Bracket:
+ ..((..(.....).))..........
+26
+
+
+Iteration 16
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 17
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 4
+Pairs:
+ [(2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ..((((......))))..........
+26
+
+
+Iteration 18
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 6
+Pairs:
+ [(0, 22), (1, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [0, 22, 1, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ ((((((......))))).....)...
+26
+
+
+Iteration 19
+
+
+setting environment up
+running sampling algorithm
+beginning Burn in iterations
+
+Centroid Structure
+Length:
+ 5
+Pairs:
+ [(0, 16), (2, 15), (3, 14), (4, 13), (5, 12)]
+Pairs:
+ [0, 16, 2, 15, 3, 14, 4, 13, 5, 12]
+Dot Bracket:
+ (.((((......))))).........
 26

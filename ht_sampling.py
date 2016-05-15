@@ -495,7 +495,7 @@ def MetropolisHastings(structures, seq):
 	#
 	# Define Burn-in rate to repeat steps 5-7
 	# Follow with fixed sampling period
-	burnin = 5000
+	burnin = 2000
 	count = 0
 	exists = 0
 

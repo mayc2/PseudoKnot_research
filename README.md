@@ -1,5 +1,8 @@
 # PseudoKnot_research
 
+Goal:
+Prototype script to predict pseudoknots in rna structures.
+
 How to run:
 You can execute the program through the use of a few scripts.
 
